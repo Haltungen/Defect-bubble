@@ -1,0 +1,30 @@
+clear all
+close all
+
+rho = 5000;
+rho_b = 1;
+kappa = 5000;
+kappa_b = 1;
+omega = 0.2;
+
+delta = rho_b/rho;
+v = sqrt(rho/kappa);
+v_b = sqrt(rho_b/kappa_b);
+
+k0 = omega * v;
+kb = omega * v_b;
+
+NN = 10;
+N1 = 35;
+N2 = 10*NN*N1;
+N3 = 10;
+R_b = 0.5;
+r_p = 0.4;
+
+x = 
+r_2 = 0.2;
+theta_2 
+
+G(x,y,omega,v,v_b,delta,R_b,NN,N1,N2,N3)
+
+
