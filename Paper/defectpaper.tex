@@ -1,0 +1,245 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{cite}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{wrapfig}
+\usepackage{cutwin}
+\usetikzlibrary{intersections,decorations.pathreplacing,decorations.markings,calc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage{float}
+\captionsetup{font={small,it}}
+\theoremstyle{definition}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\dx}{\: \mathrm{d}}
+\newcommand{\Scrystal}{\mathcal{S}_D^\#}
+\newcommand{\KstarC}{(\mathcal{K}_D^{\#})^*}
+\newcommand{\expl}[1]{\left[\text{\footnotesize \emph{#1}} \right]}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\eqnref}[1]{(\ref {#1})}
+\def\nm{\noalign{\medskip}}
+
+
+
+\author{Erik Orvehed Hiltunen}
+
+\begin{document}
+\section{Problem statement and boundary integral formulation}
+Assume that a single bubble occupies $D$, which is a circle of radius $R_b$ and center at the origin. Let $\C = \cup_{n\in\Z^2}(D+n)$ be the periodic bubble crystal.
+
+Consider now a perturbed crystal, where $D$ is replaced by a defect circle $D_d$ of radius $R_d < R_b$. Let $\C_d = D_d \cup \left( \cup_{n\in\Z^2\setminus\{0,0\}} D+n \right)$ be the perturbed crystal. We consider the following problem
+\begin{equation} \label{eq:scattering}
+\left\{
+\begin{array} {ll}
+	&\ds \nabla \cdot \frac{1}{\rho} \nabla  u+ \frac{\omega^2}{\kappa} u  = 0 \quad \text{in} \quad \R^2 \backslash \C_d, \\
+	\nm
+	&\ds \nabla \cdot \frac{1}{\rho_b} \nabla  u+ \frac{\omega^2}{\kappa_b} u  = 0 \quad \text{in} \quad \C_d, \\
+	\nm
+	&\ds  u_{+} -u_{-}  =0   \quad \text{on} \quad \partial \C_d, \\
+	\nm
+	& \ds  \frac{1}{\rho} \frac{\partial u}{\partial \nu} \bigg|_{+} - \frac{1}{\rho_b} \frac{\partial u}{\partial \nu} \bigg|_{-} =0 \quad \text{on} \quad \partial \C_d
+\end{array}
+\right.
+\end{equation}
+Here, $\partial/\partial \nu$ denotes the outward normal derivative and $|_\pm$ denote the limits from outside and inside $D$.  
+
+Let
+\begin{equation*} % \label{data1}
+v = \sqrt{\frac{\kappa}{\rho}}, \quad v_b = \sqrt{\frac{\kappa_b}{\rho_b}}, \quad k= \frac{\omega}{v} \quad \text{and} \quad k_b= \frac{\omega}{v_b}
+\end{equation*}
+be respectively the speed of sound outside and inside the bubbles, and the wavenumber outside and inside the bubbles. We also introduce two dimensionless contrast parameters
+\begin{equation*} % \label{data2}
+\delta = \frac{\rho_b}{\rho} \quad \text{and} \quad \tau= \frac{k_b}{k}= \frac{v}{v_b} =\sqrt{\frac{\rho_b \kappa}{\rho \kappa_b}}. 
+\end{equation*}
+
+Let $G(x,y)$ be the Green's function corresponding to the periodic crystal, i.e. $G$ satisfies
+\begin{equation*} \label{eq:G}
+\Delta G + (k^2+(k_b^2-k^2)\chi(\C))G = \delta(x-y)
+\end{equation*}
+Let $\mathcal{S}_{D}^k$ be the free-space single layer potential defined by
+\begin{equation*}
+\mathcal{S}_D^k[\phi](x) = \int_{\partial D} \Gamma(x,y)\phi(y) \dx \sigma(y), \quad x \in \R^2,
+\end{equation*}
+and let $\Scrystal$ be the single layer potential associated to the Green's function $G$, i.e.
+\begin{equation*}
+\Scrystal[\phi](x) = \int_{\partial D} G(x,y)\phi(y) \dx \sigma(y) , \quad x \in \R^2.
+\end{equation*}
+
+We seek a solution $u(x)$ of the form
+\begin{equation*}
+u(x) = \begin{cases}
+\mathcal{S}_{D_d}^{k_b}[\phi_1](x) \quad &x\in D_d \\
+\mathcal{S}_{D_d}^{k}[\phi_2](x) + S_D^k[\phi_3](x) & x\in D\setminus D_d \\
+\Scrystal[\phi_4](x) & x \in \R^2\setminus D.
+\end{cases}
+\end{equation*}
+A solution of this form satisfies the differential equation in \eqnref{eq:scattering}. The boundary conditions in equation \eqnref{eq:scattering} implies that the layer densities $\phi_i,\ i=1,2,3,4$ satisfies the system of boundary integral equations $\A(\omega, \delta)\Phi = 0$, where
+\begin{equation*}
+\A(\omega, \delta) = 
+\begin{pmatrix}
+\mathcal{S}_D^{k_b} &  -\mathcal{S}_D^{k} & -\mathcal{S}_{D_d,D}^{k} & 0 \\
+0 & \mathcal{S}_{D,D_d}^k & \mathcal{S}_{D_d}^k & -\Scrystal \\
+-\frac{1}{2}I+ \mathcal{K}_{D_d}^{k_b, *}& -\delta\left( \frac{1}{2}I+ (\mathcal{K}_D^{k})^*\right) & -\delta \frac{\partial \mathcal{S}_{D_d,D}^{k}}{\partial \nu} & 0 \\
+0 & \frac{\partial \mathcal{S}_{D,D_d}^{k}}{\partial \nu} & -\frac{1}{2}I+ (\mathcal{K}_D^{k})^* & -\left( \frac{1}{2}I+ \KstarC\right)
+\end{pmatrix}, 
+\ \text{and}  \ \Phi= 
+\begin{pmatrix}
+\phi_1\\
+\phi_2 \\
+\phi_3 \\
+\phi_4
+\end{pmatrix}.
+\end{equation*}
+Here the operator $\mathcal{S}_{D_d,D}^{k} = \mathcal{S}_{D}^{k}|_{x\in \partial D_d}$ is the restriction of $\mathcal{S}_{D}^{k}$ onto $\partial D_d$.
+
+\section{Numerical implementation}
+We seek a spatial discretization of the boundary integral formulation. The factors $\Scrystal$ and $\KstarC$ require the Green's function $G$ for the crystal, so the equation \eqnref{eq:G} has to be solved numerically. We will apply the method found in \cite{bandgap}
+Applying the Floquet transform we can decompose $G$ into the $\alpha$-quasiperiodic Green's function $G_\alpha$ which satisfies
+
+\begin{equation*}
+\Delta G_\alpha + (k^2+(k_b^2-k^2)\chi(\C))G_\alpha = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}
+\end{equation*}
+
+Let $Y= [-1/2,1/2]^2$. For a fixed $y\in \R^2$, the function $u(x)=G_\alpha(x,y)$ is a solution to the problem
+\begin{equation} \label{eq:quasiperiodic}
+\left\{
+\begin{array} {ll}
+&\ds \nabla \cdot \frac{1}{\rho} \nabla  u+ \frac{\omega^2}{\kappa} u  = \delta(x-y) \quad \text{in} \quad Y \backslash D, \\
+\nm
+&\ds \nabla \cdot \frac{1}{\rho_b} \nabla  u+ \frac{\omega^2}{\kappa_b} u  = \delta(x-y) \quad \text{in} \quad D, \\
+\nm
+&\ds  u_{+} -u_{-}  =0   \quad \text{on} \quad \partial D, \\
+\nm
+& \ds  \frac{1}{\rho} \frac{\partial u}{\partial \nu} \bigg|_{+} - \frac{1}{\rho_b} \frac{\partial u}{\partial \nu} \bigg|_{-} =0 \quad \text{on} \quad \partial D \\
+&  e^{-i \alpha \cdot x} u  \,\,\,  \text{is periodic.}
+\end{array}
+\right.
+\end{equation}
+Because of the reciprocity relation $G_\alpha(x,y) = G_\alpha(y,x)$, also $e^{-i \alpha \cdot y} G_\alpha(x,y)$ is periodic in $y$, so we can restrict to the case $y\in Y$. 
+Then $G_\alpha$ can be written
+
+\begin{equation*}
+G_\alpha(x,y) = \begin{cases} \Gamma_\alpha^{k_b}(x,y) + S_D^{k_b}[\psi_b](x) \quad &x\in D \\  \Gamma_\alpha^{k}(x,y) + S_D^{k}[\psi](x) &x\in Y \backslash \bar{D} \end{cases}
+\end{equation*}
+Using the jump relations for the single layer potentials, we find that
+\begin{equation*}
+\B(\omega,\delta)[\Psi] = F
+\end{equation*}
+where 
+\begin{equation*}
+\B(\omega, \delta) = 
+\begin{pmatrix}
+\mathcal{S}_D^{k_b} &  -\mathcal{S}_D^{\alpha,k}  \\
+-\frac{1}{2}+ \mathcal{K}_D^{k_b, *}& -\delta( \frac{1}{2}+ (\mathcal{K}_D^{ -\alpha,k})^*)
+\end{pmatrix}, 
+\,\, \Psi= 
+\begin{pmatrix}
+\psi_b\\
+\psi
+\end{pmatrix},
+\,\, F=
+\begin{pmatrix}
+\Gamma_\alpha^{k} - \Gamma_\alpha^{k_b} \\
+\delta\frac{\partial \Gamma_\alpha^{k}}{\partial \nu} -
+\frac{\partial \Gamma_\alpha^{k_b}}{\partial \nu} 
+\end{pmatrix}
+\end{equation*}
+
+Recall that the quasi-periodic Green's function $\Gamma_\alpha^k$, defined as the solution to the equation
+\begin{equation*}
+\Delta \Gamma_\alpha^k(x,y) + k^2\Gamma_\alpha\alpha^k(x,y) = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}
+\end{equation*}
+can be expanded as 
+\begin{equation} \label{eq:quasihomogenious}
+\Gamma_\alpha^k(x,y) = -\frac{i}{4}\sum_{m\in \Z^2} H_0^{(1)}(k|x-y-m|)e^{im\cdot\alpha}
+\end{equation}
+We need to expand the function $\Gamma_\alpha^k(x,y)$ in terms of the polar coordinates $(r,\theta)$ of $x$. We will use the following versions of Graf's addition theorem.
+
+\begin{equation*}
+H_l^{(1)}(kr_2)e^{il\theta_2} =
+\begin{cases}
+\sum_{n=-\infty}^\infty H_{l-n}^{(1)}(kb)e^{i(l-n)\beta}J_n(kr_1)e^{in\theta_1} \qquad &\text{if } r_1<b \\
+\sum_{n=-\infty}^\infty H_{l-n}^{(1)}(kr_1)e^{i(l-n)\theta_1}J_n(kb)e^{in\beta} \qquad &\text{if } r_1>b
+\end{cases}
+\end{equation*}
+In these equations we have $x_1 = r_1e^{i\theta_1}, x_2 = r_2e^{i\theta_2}$ and $x_2 = x_1 + be^{i\theta}$. 
+
+In the following, pick $x$ on the boundary $\partial D$, i.e. $x = R_be^{i\theta}$. Furthermore, pick $y=r'e^{i\theta'}$ inside $Y$. Using the addition formulas, we have
+\begin{align*}
+H_0^{(1)}(k|x-y-m|) &= 
+\begin{cases}
+\sum_{n=-\infty}^\infty (-1)^nH_{-n}^{(1)}(k|y+m|)e^{-in\theta_m'}J_n(kR_b)e^{in\theta} \qquad &\text{if } R_b<|y+m| \\
+\sum_{n=-\infty}^\infty (-1)^nH_{-n}^{(1)}(kR_b)e^{-in\theta}J_n(k|y+m|)e^{in\theta_m'} \qquad &\text{if } R_b>|y+m|
+\end{cases}
+\end{align*}
+For $m\neq 0$ we have $R_b<|y+m|$ and
+\begin{equation*}
+H_{-n}^{(1)}(k|y+m|)e^{-in\theta_m'} = \sum_{l=-\infty}^\infty H_{-n-l}^{(1)}(k|m|)e^{i(-n-l)\theta_m}J_l(kr')e^{il\theta'}
+\end{equation*}
+Plugging in above expressions into equation \ref{eq:quasihomogenious}, we find
+\begin{equation*}
+\Gamma_\alpha^k(x,y) = -\frac{i}{4}\sum_{n=-\infty}^\infty\left[ M_ne^{in\theta} + \sum_{l=-\infty}^\infty\left[ \sum_{m\in \Z^2, m\neq 0} H_{-n-l}(k|m|)e^{i(-n-l)\theta_m}e^{im\cdot\alpha} \right] (-1)^nJ_l(kr')e^{il\theta'}J_n(kR_b)e^{in\theta}\right],
+\end{equation*}
+where the terms $M_n$, corresponding to $m=0$, are given by
+\begin{equation*}
+M_n = \begin{cases}
+(-1)^nH_{-n}(kr')e^{-in\theta'}J_n(kR_b) \quad &\text{if } r' > R_b \\
+(-1)^nH_{n}(kR_b)J_{-n}(kr')e^{-in\theta'} \quad &\text{if } r' < R_b.
+\end{cases}
+\end{equation*}
+The two different cases correspond to the source $y$ being inside or outside the bubble. Define the lattice sum $Q_n$ as 
+\begin{equation*}
+Q_n = \sum_{m\in \Z^2, m\neq 0} H_{n}(k|m|)e^{in\theta_m}e^{im\cdot\alpha}.
+\end{equation*}
+Then the equation for $\Gamma_\alpha^k$ is 
+\begin{equation}\label{eq:gammafourier}
+\Gamma_\alpha^k(x,y) = -\frac{i}{4}\sum_{n=-\infty}^\infty\left[ M_n + \sum_{l=-\infty}^\infty Q_{-n-l} (-1)^nJ_l(kr')e^{il\theta'}J_n(kR_b)\right]e^{in\theta}.
+\end{equation}
+This can be viewed as a Fourier series expansion of $\Gamma_\alpha^k$ as a function of $x\in S^1$. The $n$:th Fourier coefficient is
+\begin{equation*}
+-\frac{i}{4}\left[M_n + \sum_{l=-\infty}^\infty Q_{-n-l} (-1)^nJ_l(kr')e^{il\theta'}J_n(kR_b)\right]
+\end{equation*}
+For $x\in \partial D$ we have
+\begin{equation*}
+\frac{\partial \Gamma_\alpha^k}{\partial \nu(x)} = \frac{\partial \Gamma_\alpha^k}{\partial r}
+\end{equation*} 
+Differentiating equation \ref{eq:gammafourier} we find
+\begin{equation*}
+\frac{\partial \Gamma_\alpha^k}{\partial \nu(x)} = -\frac{i}{4}\sum_{n=-\infty}^\infty\left[ M_n' + \sum_{l=-\infty}^\infty Q_{-n-l} (-1)^nJ_l(kr')e^{il\theta'}kJ_n'(kR_b)\right]e^{in\theta},
+\end{equation*}
+where
+\begin{equation*}
+M_n' = \begin{cases}
+(-1)^nkH_{-n}(kr')e^{-in\theta'}J_n'(kR_b) \quad &\text{if } r' > R_b \\
+(-1)^nkH'_{n}(kR_b)J_{-n}(kr')e^{-in\theta'} \quad &\text{if } r' < R_b.
+\end{cases}
+\end{equation*}
+
+
+\bibliography{defect}{}
+\bibliographystyle{plain}
+\end{document}
