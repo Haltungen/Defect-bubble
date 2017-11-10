@@ -49,6 +49,7 @@
 \author{Erik Orvehed Hiltunen}
 
 \begin{document}
+\section{Introduction}
 We consider acoustic wave propagation in a crystal with bubbles repeated in a periodic square lattice. It has previously been shown that such crystal exhibits a frequency bandgap, so waves with frequencies inside this bandgap will decay exponentially. By perturbing one bubble to have a resonance frequency inside the bandgap, we expect a localized mode inside the crystal. 
 
 
@@ -114,7 +115,7 @@ For $x$ close to $y$ on the boundary of a bubble, $|x-y|$ is small compared to t
 \end{array}
 \right.	
 \end{equation*}
-Set $\tilde{G}_0 = G_0-\Gamma^0$, where $\Gamma^0(x,y)= \frac{-1}{2\pi}\ln(|x-y|)$ is the fundamental solution for the Laplace equation in $\R^2$. Then $\tilde{G}_0$ is the solution to the following Conductivity problem
+Set $\tilde{G}_0 = G_0-\Gamma^0$, where $\Gamma^0(x,y)= \frac{-1}{2\pi}\ln(|x-y|)$ is the fundamental solution for the Laplace equation in $\R^2$. Then $\tilde{G}_0$ is the solution to the following conductivity problem
 \begin{equation*}
 \left\{
 \begin{array}{ll}
@@ -127,9 +128,48 @@ Set $\tilde{G}_0 = G_0-\Gamma^0$, where $\Gamma^0(x,y)= \frac{-1}{2\pi}\ln(|x-y|
 \end{equation*}
 It is well known that the solution to this problem is given by
 \begin{equation*}
-\mathcal{S}_D^0 \left[\lambda - \left( \mathcal{K}_D^0 \right)^* \right] \left( \frac{\partial\Gamma^0}{\partial \nu} \right) 
+\tilde{G}(x,y) = \mathcal{S}_D^0 \left[\psi\right](x),
+\end{equation*}
+where
+\begin{equation*}
+\psi(z) = \left(\lambda I - \left( \mathcal{K}_D^0 \right)^*\right)^{-1} \left[ \frac{\partial\Gamma^0(z,y)}{\partial \nu(z)} \right] 
+\end{equation*}
+For a disk $D$, the operator $\left(\mathcal{K}_D^0\right)^*$ has an explicit expression
+\begin{equation*}
+\left(\mathcal{K}_D^0\right)^*[\phi](x) = \frac{1}{4\pi R_b}\int_{\partial D} \phi(y)\dx \sigma,
+\end{equation*}
+valid for all $x\in \partial D$. Furthermore, $\mathcal{K}_D^0$ is self-adjoint in this case. For $y$ outside $D$ the function $\Gamma^0(x,y)$ is harmonic as a function of $x\in D$. Therefore 
+\begin{equation*}
+\int_{\partial D} \frac{\partial \Gamma^0(x,y)}{\partial(x) \nu}\dx \sigma(x) = 0,
+\end{equation*}
+so it can easily be shown that 
+\begin{equation*}
+\int_{\partial D} \psi(x)\dx \sigma = 0,
+\end{equation*}
+and hence 
+\begin{equation*}
+\psi = \frac{1}{\lambda}\frac{\partial \Gamma^0}{\partial \nu}.
+\end{equation*}
+It follows that 
+\begin{align*}
+\tilde{G}(x,y) &= \frac{1}{\lambda}\mathcal{S}_D^0 \left[\frac{\partial \Gamma^0(z,y)}{\partial \nu(z)} \right](x) \\
+&= \frac{1}{\lambda} \int_{\partial D} \Gamma^0(x,z) \frac{\partial \Gamma^0(z,y)}{\partial \nu(z)} \dx \sigma(z) \\
+&=\frac{1}{\lambda}\mathcal{D}_D^0 \left[\Gamma^0(z,x)\right](y)
+\end{align*}
+Taking the limit $y\rightarrow \partial D+$ and using the jump relation for the double layer potential $\mathcal{D}_D^0$, we find
+\begin{equation*}
+\tilde{G}_0(x,y) = -\frac{\Gamma^0(x,y)}{2\lambda} + \frac{1}{\lambda}\mathcal{K}_D^0\left[\Gamma^0(x,z)\right](y).
+\end{equation*}
+Here $\mathcal{K}_D^0\left[\Gamma^0(x,z)\right](y)$ is a bounded constant $C(x)$ with respect to $y$ (and actually equals $\frac{1}{2}\Gamma^0(x,0)$). Plugging into the formula for $G$ we find
+\begin{equation*}
+G(x,y) = c\Gamma^0(x,y) + C(x),
+\end{equation*}
+where 
+\begin{equation*}
+c = \frac{2}{\delta+1}.
 \end{equation*}
 
+\subsection{Boundary integral formulation}
 Implies that the layer densities $\phi_i,\ i=1,2,3,4$ satisfies the system of boundary integral equations $\A(\omega, \delta)\Phi = 0$, where
 \begin{equation} \label{eq:A}
 \A(\omega, \delta) = 
