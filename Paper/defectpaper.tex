@@ -12,6 +12,7 @@
 \usepackage{pgfplots}
 \usepackage{wrapfig}
 \usepackage{cutwin}
+\graphicspath{ {images/} }
 \usetikzlibrary{intersections,decorations.pathreplacing,decorations.markings,calc}
 
 %% Sets page size and margins
@@ -48,7 +49,10 @@
 \author{Erik Orvehed Hiltunen}
 
 \begin{document}
-\section{Problem statement and boundary integral formulation}
+We consider acoustic wave propagation in a crystal with bubbles repeated in a periodic square lattice. It has previously been shown that such crystal exhibits a frequency bandgap, so waves with frequencies inside this bandgap will decay exponentially. By perturbing one bubble to have a resonance frequency inside the bandgap, we expect a localized mode inside the crystal. 
+
+
+\section{Problem statement}
 Assume that a single bubble occupies $D$, which is a circle of radius $R_b$ and center at the origin. Let $\C = \cup_{n\in\Z^2}(D+n)$ be the periodic bubble crystal.
 
 Consider now a perturbed crystal, where $D$ is replaced by a defect circle $D_d$ of radius $R_d < R_b$. Let $\C_d = D_d \cup \left( \cup_{n\in\Z^2\setminus\{0,0\}} D+n \right)$ be the perturbed crystal. We consider the following problem
@@ -80,30 +84,59 @@ Let $G(x,y)$ be the Green's function corresponding to the periodic crystal, i.e.
 \begin{equation*} \label{eq:G}
 \Delta G + (k^2+(k_b^2-k^2)\chi(\C))G = \delta(x-y)
 \end{equation*}
-Let $\mathcal{S}_{D}^k$ be the free-space single layer potential defined by
+Let $\Gamma^k$ be the fundamental solution to the Helmholtz equation with wavenumber $k$ and $\mathcal{S}_{D}^k$ be the free-space single layer potential defined by
 \begin{equation*}
-\mathcal{S}_D^k[\phi](x) = \int_{\partial D} \Gamma(x,y)\phi(y) \dx \sigma(y), \quad x \in \R^2,
+\mathcal{S}_D^k[\phi](x) = \int_{\partial D} \Gamma^k(x,y)\phi(y) \dx \sigma(y), \quad x \in \R^2,
 \end{equation*}
-and let $\Scrystal$ be the single layer potential associated to the Green's function $G$, i.e.
+Let $\Scrystal$ be the single layer potential associated to the Green's function $G$, i.e.
 \begin{equation*}
 \Scrystal[\phi](x) = \int_{\partial D} G(x,y)\phi(y) \dx \sigma(y) , \quad x \in \R^2.
 \end{equation*}
 
 We seek a solution $u(x)$ of the form
-\begin{equation*}
+\begin{equation} \label{eq:sol}
 u(x) = \begin{cases}
 \mathcal{S}_{D_d}^{k_b}[\phi_1](x) \quad &x\in D_d \\
 \mathcal{S}_{D_d}^{k}[\phi_2](x) + S_D^k[\phi_3](x) & x\in D\setminus D_d \\
 \Scrystal[\phi_4](x) & x \in \R^2\setminus D.
 \end{cases}
-\end{equation*}
-A solution of this form satisfies the differential equation in \eqnref{eq:scattering}. The boundary conditions in equation \eqnref{eq:scattering} implies that the layer densities $\phi_i,\ i=1,2,3,4$ satisfies the system of boundary integral equations $\A(\omega, \delta)\Phi = 0$, where
+\end{equation}
+A solution of this form satisfies the differential equation in \eqnref{eq:scattering}. To write the boundary conditions in equation \eqnref{eq:scattering} in therms of the boundary integral operators, we need the jump relations for the single layer potentials. For $S_D^k$, these are well known, but it remains to compute these for $S_D^\#$.
+
+\subsection{Jump relations for $S_D^\#$}
+For $x$ close to $y$ on the boundary of a bubble, $|x-y|$ is small compared to the wavelength so we are in the quasi-static regime. We therefore expect the singularity of $G$ to be the same as the singularity of the Laplace Green's function $G_0(x,y)$, which is the solution to 
 \begin{equation*}
+\left\{
+\begin{array}{ll}
+	&\ds \Delta G_0 = \delta(x-y) \quad \text{in}\quad \R^2 \\
+	&\ds \frac{1}{\rho}\frac{\partial G_0}{\partial \nu}\bigg|_+ - \frac{1}{\rho}\frac{\partial G_0}{\partial \nu}\bigg|_- = 0 \quad \text{in} \quad \partial D \\
+	&\ds G_0 \text{ satisfies Sommerfeld radiation condition} 
+\end{array}
+\right.	
+\end{equation*}
+Set $\tilde{G}_0 = G_0-\Gamma^0$, where $\Gamma^0(x,y)= \frac{-1}{2\pi}\ln(|x-y|)$ is the fundamental solution for the Laplace equation in $\R^2$. Then $\tilde{G}_0$ is the solution to the following Conductivity problem
+\begin{equation*}
+\left\{
+\begin{array}{ll}
+&\ds \Delta \tilde{G}_0 = 0 \quad \text{in}\quad \R^2 \\
+&\ds G_0\big|_+-G_0\big|_- = 0 \\
+&\ds \frac{1}{\rho}\frac{\partial \tilde{G}_0}{\partial \nu}\bigg|_+ - \frac{1}{\rho}\frac{\partial \tilde{G}_0}{\partial \nu}\bigg|_- = (1-\delta)\frac{\partial \Gamma^0}{\partial \nu} \quad \text{in} \quad \partial D \\
+&\ds \tilde{G}_0 \text{ satisfies Sommerfeld radiation condition} 
+\end{array}
+\right.	
+\end{equation*}
+It is well known that the solution to this problem is given by
+\begin{equation*}
+\mathcal{S}_D^0 \left[\lambda - \left( \mathcal{K}_D^0 \right)^* \right] \left( \frac{\partial\Gamma^0}{\partial \nu} \right) 
+\end{equation*}
+
+Implies that the layer densities $\phi_i,\ i=1,2,3,4$ satisfies the system of boundary integral equations $\A(\omega, \delta)\Phi = 0$, where
+\begin{equation} \label{eq:A}
 \A(\omega, \delta) = 
 \begin{pmatrix}
-\mathcal{S}_D^{k_b} &  -\mathcal{S}_D^{k} & -\mathcal{S}_{D_d,D}^{k} & 0 \\
-0 & \mathcal{S}_{D,D_d}^k & \mathcal{S}_{D_d}^k & -\Scrystal \\
--\frac{1}{2}I+ \mathcal{K}_{D_d}^{k_b, *}& -\delta\left( \frac{1}{2}I+ (\mathcal{K}_D^{k})^*\right) & -\delta \frac{\partial \mathcal{S}_{D_d,D}^{k}}{\partial \nu} & 0 \\
+\mathcal{S}_{D_d}^{k_b} &  -\mathcal{S}_{D_d}^{k} & -\mathcal{S}_{D_d,D}^{k} & 0 \\
+0 & \mathcal{S}_{D,D_d}^k & \mathcal{S}_{D}^k & -\Scrystal \\
+-\frac{1}{2}I+ (\mathcal{K}_{D_d}^{k_b})^*& -\delta\left( \frac{1}{2}I+ (\mathcal{K}_{D_d}^{k})^*\right) & -\delta \frac{\partial \mathcal{S}_{D_d,D}^{k}}{\partial \nu} & 0 \\
 0 & \frac{\partial \mathcal{S}_{D,D_d}^{k}}{\partial \nu} & -\frac{1}{2}I+ (\mathcal{K}_D^{k})^* & -\left( \frac{1}{2}I+ \KstarC\right)
 \end{pmatrix}, 
 \ \text{and}  \ \Phi= 
@@ -113,18 +146,104 @@ A solution of this form satisfies the differential equation in \eqnref{eq:scatte
 \phi_3 \\
 \phi_4
 \end{pmatrix}.
-\end{equation*}
+\end{equation}
 Here the operator $\mathcal{S}_{D_d,D}^{k} = \mathcal{S}_{D}^{k}|_{x\in \partial D_d}$ is the restriction of $\mathcal{S}_{D}^{k}$ onto $\partial D_d$.
 
-\section{Numerical implementation}
-We seek a spatial discretization of the boundary integral formulation. The factors $\Scrystal$ and $\KstarC$ require the Green's function $G$ for the crystal, so the equation \eqnref{eq:G} has to be solved numerically. We will apply the method found in \cite{bandgap}
-Applying the Floquet transform we can decompose $G$ into the $\alpha$-quasiperiodic Green's function $G_\alpha$ which satisfies
+\section{Simplified problem}
+By perturbing the size of one bubble, we expect one localized mode, which quickly decays away from the perturbed bubble. To model this behavior, we first consider a simpler problem. Intuitively, the exponential decay means that the solution $u(x)$ is close to zero for $x$ large enough. In this simplified problem, we assume that $u(x)=0$ for $|x|=R_b$, i.e. for $x$ on the large bubble $D$, and only consider the problem inside $D$. We therefore consider the Dirichlet problem
+\begin{equation} \label{eq:simple}
+\left\{
+\begin{array} {ll}
+&\ds \nabla \cdot \frac{1}{\rho} \nabla  u+ \frac{\omega^2}{\kappa} u  = 0 \quad \text{in} \quad D \backslash D_d, \\
+\nm
+&\ds \nabla \cdot \frac{1}{\rho_b} \nabla  u+ \frac{\omega^2}{\kappa_b} u  = 0 \quad \text{in} \quad D_d, \\
+\nm
+&\ds  u_{+} -u_{-}  =0   \quad \text{on} \quad \partial D_d, \\
+\nm
+& \ds  \frac{1}{\rho} \frac{\partial u}{\partial \nu} \bigg|_{+} - \frac{1}{\rho_b} \frac{\partial u}{\partial \nu} \bigg|_{-} =0 \quad \text{on} \quad \partial D_d \\
+&\ds u_- = 0 \quad \text{on} \quad \partial D.
+\end{array}
+\right .
+\end{equation}
+We seek the resonance frequencies, i.e. the frequencies $\omega$ such that equation \eqnref{eq:simple} has a non-trivial solution. This problem is solved numerically using two different methods. Similarly to equation \eqnref{eq:sol}, we seek a solution of the form 
+\begin{equation} \label{eq:simplesol}
+u(x) = \begin{cases}
+\mathcal{S}_{D_d}^{k_b}[\phi_1](x) \quad &x\in D_d \\
+\mathcal{S}_{D_d}^{k}[\phi_2](x) + S_D^k[\phi_3](x) & x\in D\setminus D_d,
+\end{cases}
+\end{equation}
+satisfying $\tilde{\A}(\omega, \delta)\Phi = 0$, where
+\begin{equation} \label{eq:simpleA}
+\tilde{\A}(\omega, \delta) = 
+\begin{pmatrix}
+\mathcal{S}_{D_d}^{k_b} &  -\mathcal{S}_{D_d}^{k} & -\mathcal{S}_{D_d,D}^{k} \\
+0 & \mathcal{S}_{D,D_d}^k & \mathcal{S}_{D}^k \\
+-\frac{1}{2}I+ (\mathcal{K}_{D_d}^{k_b})^*& -\delta\left( \frac{1}{2}I+ \left(\mathcal{K}_{D_d}^{k}\right)^*\right) & -\delta \frac{\partial \mathcal{S}_{D_d,D}^{k}}{\partial \nu}
+\end{pmatrix}, 
+\ \text{and}  \ \Phi= 
+\begin{pmatrix}
+\phi_1\\
+\phi_2 \\
+\phi_3
+\end{pmatrix}.
+\end{equation}
+The integral operators in $\tilde{\mathcal{A}}$ are discretized using Nyström's method and the smallest resonance frequency is computed using Muller's method. \cite{first}
 
+To verify the solution, the problem is also solved using multipole expansions. Because the problem is a radially symmetric Helmholtz problem, the solution $u(x)$ can be written
+\begin{equation*}
+u(x) = \begin{cases}
+\sum_{n=-\infty}^\infty a_n J_n(k_br)e^{in\theta} \quad &\text{if } r<R_d \\
+\sum_{n=-\infty}^\infty \left(b_n J_n(kr) + c_n H^{(1)}_n(kr)\right) e^{in\theta}  &\text{if } r>R_d.
+\end{cases}
+\end{equation*}
+Using the boundary conditions, we find that for every $n\in \Z$,
+\begin{equation*} 
+\begin{pmatrix}
+J_n(k_bR_d) &  -J_n(kR_d) & -H_n^{(1)}(kR_d) \\
+k_bJ_n'(k_bR_d) & -\delta kJ_n'(kR_d) & -\delta k H^{(1)'}_n(kR_d)\\
+0 & J_n(kR_b) & H^{(1)}_n(kR_b)
+\end{pmatrix}
+\begin{pmatrix}
+a_n \\ b_n \\ c_n
+\end{pmatrix} = 0.
+\end{equation*}
+We therefore seek the $\omega$ such that for some $n$, this system is not invertible. It is intuitively clear that the first resonant frequency will contain a factor with $n=0$. Thus, the lowest resonant frequency corresponds to the matrix
+\begin{equation*} 
+\begin{pmatrix}
+J_0(k_bR_d) &  -J_0(kR_d) & -H_0^{(1)}(kR_d) \\
+k_bJ_0'(k_bR_d) & -\delta kJ_0'(kR_d) & -\delta k H^{(1)'}_0(kR_d)\\
+0 & J_0(kR_b) & H^{(1)}_0(kR_b)
+\end{pmatrix}
+\end{equation*}
+being singular. This frequency is computed using Muller's method.
+\begin{figure}[H]
+	\centering
+	\begin{minipage}[t]{0.45\linewidth}
+	\includegraphics[scale=0.5]{../Model_problem/simpleSol.png}
+	\caption{Resonance frequency for different defect radius $R_d$.}
+	\label{fig:simpleSol}
+	\end{minipage}
+	\hspace{10pt}
+	\begin{minipage}[t]{0.45\linewidth}
+	\includegraphics[scale=0.5]{../Model_problem/simpleErr.png}
+	\caption{Relative error between integral formulation and multipole expansion solutions for different defect radius $R_d$.}
+	\label{fig:simpleErr}
+\end{minipage}
+\end{figure}
+
+Figure \ref{fig:simpleSol} shows the resonance frequency of the model problem, the resonance frequency of the small bubble in free-space and the resonance frequency of the Dirichlet problem on the big bubble without the inclusion. It can be seen that the resonance frequency of the model problem is higher compared to the bubble in free-space. For $R_d \rightarrow R_b$, the system behaves like a Dirichlet problem for the Helmholtz equation on the small bubble, and the resonance frequency tends to the first eigenvalue of this problem.
+
+Figure \ref{fig:simpleErr} shows the relative error between the solutions using the integral operator and the multipole expansions methods. For intermediate $R_d$, the relative error is of the order $1\%$, so the two methods agree.
+
+The conclusion is that we also have resonance in the model problem, and that the resonance frequency is higher compared to the free-space bubble. This suggests that there will be a resonance mode corresponding to the small bubble in the full problem, and that this resonance frequency will lie in the bandgap of the crystal.
+
+\section{Numerical implementation}
+We seek a spatial discretization of the boundary integral formulation. The factors $\Scrystal$ and $\KstarC$ require the Green's function $G$ for the crystal, so the equation \eqnref{eq:G} has to be solved numerically. We will apply the method found in \cite{bandgap}.
+Applying the Floquet transform we can decompose $G$ into the $\alpha$-quasiperiodic Green's function $G_\alpha$ which satisfies
 \begin{equation*}
 \Delta G_\alpha + (k^2+(k_b^2-k^2)\chi(\C))G_\alpha = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}
 \end{equation*}
-
-Let $Y= [-1/2,1/2]^2$. For a fixed $y\in \R^2$, the function $u(x)=G_\alpha(x,y)$ is a solution to the problem
+Here $\alpha$ is in the so called first Brillouin zone $[0,2\pi]^2$. Let $Y= [-1/2,1/2]^2$. For a fixed $y\in \R^2$, the function $u(x)=G_\alpha(x,y)$ is a solution to the problem
 \begin{equation} \label{eq:quasiperiodic}
 \left\{
 \begin{array} {ll}
@@ -139,12 +258,19 @@ Let $Y= [-1/2,1/2]^2$. For a fixed $y\in \R^2$, the function $u(x)=G_\alpha(x,y)
 \end{array}
 \right.
 \end{equation}
-Because of the reciprocity relation $G_\alpha(x,y) = G_\alpha(y,x)$, also $e^{-i \alpha \cdot y} G_\alpha(x,y)$ is periodic in $y$, so we can restrict to the case $y\in Y$. 
+Because of the reciprocity relation $G_\alpha(x,y) = G_\alpha(y,x)$, also $e^{-i \alpha \cdot y} G_\alpha(x,y)$ is periodic in $y$, so we can restrict to the case $y\in Y$. Recall that the quasi-periodic Green's function $\Gamma_\alpha^k$, defined as the solution to the equation
+\begin{equation*}
+\Delta \Gamma_\alpha^k(x,y) + k^2\Gamma_\alpha\alpha^k(x,y) = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}
+\end{equation*}
+can be expanded as 
+\begin{equation} \label{eq:quasihomogenious}
+\Gamma_\alpha^k(x,y) = -\frac{i}{4}\sum_{m\in \Z^2} H_0^{(1)}(k|x-y-m|)e^{im\cdot\alpha}
+\end{equation}
 Then $G_\alpha$ can be written
 
-\begin{equation*}
+\begin{equation} \label{eq:G_a}
 G_\alpha(x,y) = \begin{cases} \Gamma_\alpha^{k_b}(x,y) + S_D^{k_b}[\psi_b](x) \quad &x\in D \\  \Gamma_\alpha^{k}(x,y) + S_D^{k}[\psi](x) &x\in Y \backslash \bar{D} \end{cases}
-\end{equation*}
+\end{equation}
 Using the jump relations for the single layer potentials, we find that
 \begin{equation*}
 \B(\omega,\delta)[\Psi] = F
@@ -168,16 +294,7 @@ where
 \frac{\partial \Gamma_\alpha^{k_b}}{\partial \nu} 
 \end{pmatrix}
 \end{equation*}
-
-Recall that the quasi-periodic Green's function $\Gamma_\alpha^k$, defined as the solution to the equation
-\begin{equation*}
-\Delta \Gamma_\alpha^k(x,y) + k^2\Gamma_\alpha\alpha^k(x,y) = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}
-\end{equation*}
-can be expanded as 
-\begin{equation} \label{eq:quasihomogenious}
-\Gamma_\alpha^k(x,y) = -\frac{i}{4}\sum_{m\in \Z^2} H_0^{(1)}(k|x-y-m|)e^{im\cdot\alpha}
-\end{equation}
-We need to expand the function $\Gamma_\alpha^k(x,y)$ in terms of the polar coordinates $(r,\theta)$ of $x$. We will use the following versions of Graf's addition theorem.
+The method in \cite{bandgap} uses the Fourier basis $e^{in\theta}$, so  we need to expand the function $\Gamma_\alpha^k(x,y)$ in terms of the polar coordinates $(r,\theta)$ of $x$. We will use the following version of Graf's addition theorem.
 
 \begin{equation*}
 H_l^{(1)}(kr_2)e^{il\theta_2} =
@@ -186,7 +303,7 @@ H_l^{(1)}(kr_2)e^{il\theta_2} =
 \sum_{n=-\infty}^\infty H_{l-n}^{(1)}(kr_1)e^{i(l-n)\theta_1}J_n(kb)e^{in\beta} \qquad &\text{if } r_1>b
 \end{cases}
 \end{equation*}
-In these equations we have $x_1 = r_1e^{i\theta_1}, x_2 = r_2e^{i\theta_2}$ and $x_2 = x_1 + be^{i\theta}$. 
+In these equations we have $x_1 = r_1e^{i\theta_1}, x_2 = r_2e^{i\theta_2}$ and $x_2 = x_1 + be^{i\beta}$. 
 
 In the following, pick $x$ on the boundary $\partial D$, i.e. $x = R_be^{i\theta}$. Furthermore, pick $y=r'e^{i\theta'}$ inside $Y$. Using the addition formulas, we have
 \begin{align*}
@@ -225,7 +342,7 @@ This can be viewed as a Fourier series expansion of $\Gamma_\alpha^k$ as a funct
 \end{equation*}
 For $x\in \partial D$ we have
 \begin{equation*}
-\frac{\partial \Gamma_\alpha^k}{\partial \nu(x)} = \frac{\partial \Gamma_\alpha^k}{\partial r}
+\frac{\partial \Gamma_\alpha^k}{\partial \nu(x)} = \frac{\partial \Gamma_\alpha^k}{\partial r} \Bigg|_{r=R_b}
 \end{equation*} 
 Differentiating equation \ref{eq:gammafourier} we find
 \begin{equation*}
@@ -238,6 +355,11 @@ M_n' = \begin{cases}
 (-1)^nkH'_{n}(kR_b)J_{-n}(kr')e^{-in\theta'} \quad &\text{if } r' < R_b.
 \end{cases}
 \end{equation*}
+Using these Fourier coefficients we can solve the system \eqnref{eq:G_a} to find $G_\alpha(x,y)$ for $x\in \partial D$. The Green's function $G$ is then found using the formula
+\begin{equation*}
+G(x,y) = \frac{1}{(2\pi)^2}\int_{[0,2\pi]^2} G_\alpha(x,y) \dx \alpha,
+\end{equation*}
+i.e. $G$ is the average of $G_\alpha$ over the first Brillouin zone. 
 
 
 \bibliography{defect}{}

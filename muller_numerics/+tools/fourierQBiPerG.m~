@@ -47,9 +47,9 @@ for n = -NN:NN
             Qn = data_Qn_nega(n+l);
         end
         fprintf('Qn: %.5e,\tJ_l:\t%.5e,\tQn*J_l: %.5e\n', Qn, besselj(l,k*r_2), Qn*besselj(l,k*r_2));
-        out(NN+1+n) = out(NN+1+n) + (-1)^l*Qn*besselj(l,k*r_2)*exp(1i*l*theta_2);
+        out(NN+1+n) = out(NN+1+n) + Qn*besselj(l,k*r_2)*exp(1i*l*theta_2);
     end
-    out(NN+1+n) = out(NN+1+n)*besselj(n,k*r);
+    out(NN+1+n) = out(NN+1+n)*sgn*besselj(n,k*r);
     if r_2 > r
         out(NN+1+n) = out(NN+1+n) + sgn*besselh(-n,1,k*r_2)*exp(-1i*n*theta_2)*besselj(n,k*r);
     else

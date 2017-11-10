@@ -1,2 +1,4 @@
-\BOOKMARK [1][-]{section.1}{Problem statement and boundary integral formulation}{}% 1
-\BOOKMARK [1][-]{section.2}{Numerical implementation}{}% 2
+\BOOKMARK [1][-]{section.1}{Problem statement}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Jump relations for SD\043}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Simplified problem}{}% 3
+\BOOKMARK [1][-]{section.3}{Numerical implementation}{}% 4
