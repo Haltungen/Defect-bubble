@@ -16,12 +16,13 @@
 \usetikzlibrary{intersections,decorations.pathreplacing,decorations.markings,calc}
 
 %% Sets page size and margins
-\usepackage[a4paper,top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+\usepackage[a4paper,top=3cm,bottom=2cm,left=2.5cm,right=2.5cm,marginparwidth=1.75cm]{geometry}
 
 %% Useful packages
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\newtheorem{prop}{Propostition}
 \usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -36,6 +37,10 @@
 \newcommand{\C}{\mathcal{C}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\B}{\mathcal{B}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\O}{\mathcal{O}}
+\renewcommand{\epsilon}{\varepsilon}
 \newcommand{\dx}{\: \mathrm{d}}
 \newcommand{\Scrystal}{\mathcal{S}_D^\#}
 \newcommand{\KstarC}{(\mathcal{K}_D^{\#})^*}
@@ -50,13 +55,11 @@
 
 \begin{document}
 \section{Introduction}
-We consider acoustic wave propagation in a crystal with bubbles repeated in a periodic square lattice. It has previously been shown that such crystal exhibits a frequency bandgap, so waves with frequencies inside this bandgap will decay exponentially. By perturbing one bubble to have a resonance frequency inside the bandgap, we expect a localized mode inside the crystal. 
+We consider acoustic wave propagation in a crystal with bubbles repeated in a periodic square lattice. It has previously been shown that such crystal exhibits a frequency bandgap, so waves with frequencies inside this bandgap will decay exponentially. By perturbing one bubble to a smaller radius, the resonance frequency of this bubble increases and will lie inside the bandgap. We therefore expect a localized mode near this defect.
 
 
 \section{Problem statement}
-Assume that a single bubble occupies $D$, which is a circle of radius $R_b$ and center at the origin. Let $\C = \cup_{n\in\Z^2}(D+n)$ be the periodic bubble crystal.
-
-Consider now a perturbed crystal, where $D$ is replaced by a defect circle $D_d$ of radius $R_d < R_b$. Let $\C_d = D_d \cup \left( \cup_{n\in\Z^2\setminus\{0,0\}} D+n \right)$ be the perturbed crystal. We consider the following problem
+Assume that a single bubble occupies $D$, which is a circle of radius $R_b$ and center at the origin. Let $\C = \cup_{n\in\Z^2}(D+n)$ be the periodic bubble crystal. Consider now a perturbed crystal, where $D$ is replaced by a defect circle $D_d$ of radius $R_d < R_b$. Let $\C_d = D_d \cup \left( \cup_{n\in\Z^2\setminus\{0,0\}} D+n \right)$ be the perturbed crystal and let $\epsilon = R_b-R_d$ be the perturbation in the radius. We consider the following problem
 \begin{equation} \label{eq:scattering}
 \left\{
 \begin{array} {ll}
@@ -81,15 +84,15 @@ be respectively the speed of sound outside and inside the bubbles, and the waven
 \delta = \frac{\rho_b}{\rho} \quad \text{and} \quad \tau= \frac{k_b}{k}= \frac{v}{v_b} =\sqrt{\frac{\rho_b \kappa}{\rho \kappa_b}}. 
 \end{equation*}
 
-Let $G(x,y)$ be the Green's function corresponding to the periodic crystal, i.e. $G$ satisfies
+Let $\Gamma^k$ be the fundamental solution to the Helmholtz equation with wavenumber $k$ and $\S_{D}^k$ be the free-space single layer potential defined by
+\begin{equation*}
+\S_D^k[\phi](x) = \int_{\partial D} \Gamma^k(x,y)\phi(y) \dx \sigma(y), \quad x \in \R^2,
+\end{equation*}
+Let $G(x,y)$ be the Green's function corresponding to the periodic crystal $\C$, i.e. $G$ satisfies
 \begin{equation*} \label{eq:G}
 \Delta G + (k^2+(k_b^2-k^2)\chi(\C))G = \delta(x-y)
 \end{equation*}
-Let $\Gamma^k$ be the fundamental solution to the Helmholtz equation with wavenumber $k$ and $\mathcal{S}_{D}^k$ be the free-space single layer potential defined by
-\begin{equation*}
-\mathcal{S}_D^k[\phi](x) = \int_{\partial D} \Gamma^k(x,y)\phi(y) \dx \sigma(y), \quad x \in \R^2,
-\end{equation*}
-Let $\Scrystal$ be the single layer potential associated to the Green's function $G$, i.e.
+Let $\Scrystal$ be the single layer potential associated to $G$, i.e.
 \begin{equation*}
 \Scrystal[\phi](x) = \int_{\partial D} G(x,y)\phi(y) \dx \sigma(y) , \quad x \in \R^2.
 \end{equation*}
@@ -97,14 +100,27 @@ Let $\Scrystal$ be the single layer potential associated to the Green's function
 We seek a solution $u(x)$ of the form
 \begin{equation} \label{eq:sol}
 u(x) = \begin{cases}
-\mathcal{S}_{D_d}^{k_b}[\phi_1](x) \quad &x\in D_d \\
-\mathcal{S}_{D_d}^{k}[\phi_2](x) + S_D^k[\phi_3](x) & x\in D\setminus D_d \\
+\S_{D_d}^{k_b}[\phi_1](x) \quad &x\in D_d \\
+\S_{D_d}^{k}[\phi_2](x) + S_D^k[\phi_3](x) & x\in D\setminus D_d \\
 \Scrystal[\phi_4](x) & x \in \R^2\setminus D.
 \end{cases}
 \end{equation}
-A solution of this form satisfies the differential equation in \eqnref{eq:scattering}. To write the boundary conditions in equation \eqnref{eq:scattering} in therms of the boundary integral operators, we need the jump relations for the single layer potentials. For $S_D^k$, these are well known, but it remains to compute these for $S_D^\#$.
+A solution of this form satisfies the differential equation in \eqnref{eq:scattering}. To write the boundary conditions in equation \eqnref{eq:scattering} in terms of the boundary integral operators, we need the jump relations for the single layer potentials. For $S_D^k$, these are well known, but for $S_D^\#$ these must be computed.
 
-\subsection{Jump relations for $S_D^\#$}
+\subsection{Jump relations for $\S_D^\#$}
+The goal of this section is to derive the jump relations for the operator $\S_D^\#$ as $x$ tends to the boundary $\partial D$. Define the two operators 
+\[(\K_D^{\#,\pm})^*[\phi](x) = \int_{\partial D}\frac{\partial G(x,y)}{\partial \nu(x)}\bigg|_{\pm} \phi(y)\dx \sigma(y),\]
+where $\frac{\partial G(x,y)}{\partial \nu(x)}\big|_{\pm}$ are the values of $\frac{\partial G(x,y)}{\partial \nu(x)}$ as $x\rightarrow \partial D \pm$. Observe that the normal derivative of $G$ has a jump, so these values do not coincide. We have the following
+\begin{prop} \label{prop:jump}
+	The following jump relations hold for the single layer potential and its normal derivative:
+\[\S_D^\#[\phi]\big|_+ = \S_D^\#[\phi]\big|_-\]
+and
+\[\frac{\partial \S_D^\#[\phi]}{\partial \nu} \bigg|_{\pm} = \pm \frac{c\phi}{2} + (\K_D^{\#,\pm})^* [\phi],\]
+where $c$ is a material parameter given by
+\[c = \frac{2}{\delta+1}\]
+\end{prop}
+\begin{proof}
+\marginpar{\footnotesize Add more details! Asymptotic expansion in $k$}
 For $x$ close to $y$ on the boundary of a bubble, $|x-y|$ is small compared to the wavelength so we are in the quasi-static regime. We therefore expect the singularity of $G$ to be the same as the singularity of the Laplace Green's function $G_0(x,y)$, which is the solution to 
 \begin{equation*}
 \left\{
@@ -128,17 +144,17 @@ Set $\tilde{G}_0 = G_0-\Gamma^0$, where $\Gamma^0(x,y)= \frac{-1}{2\pi}\ln(|x-y|
 \end{equation*}
 It is well known that the solution to this problem is given by
 \begin{equation*}
-\tilde{G}(x,y) = \mathcal{S}_D^0 \left[\psi\right](x),
+\tilde{G_0}(x,y) = \S_D^0 \left[\psi\right](x),
 \end{equation*}
 where
 \begin{equation*}
-\psi(z) = \left(\lambda I - \left( \mathcal{K}_D^0 \right)^*\right)^{-1} \left[ \frac{\partial\Gamma^0(z,y)}{\partial \nu(z)} \right] 
+\psi(z) = \left(\lambda I - \left( \K_D^0 \right)^*\right)^{-1} \left[ \frac{\partial\Gamma^0(z,y)}{\partial \nu(z)} \right] 
 \end{equation*}
-For a disk $D$, the operator $\left(\mathcal{K}_D^0\right)^*$ has an explicit expression
+For a disk $D$, the operator $\left(\K_D^0\right)^*$ has an explicit expression
 \begin{equation*}
-\left(\mathcal{K}_D^0\right)^*[\phi](x) = \frac{1}{4\pi R_b}\int_{\partial D} \phi(y)\dx \sigma,
+\left(\K_D^0\right)^*[\phi](x) = \frac{1}{4\pi R_b}\int_{\partial D} \phi(y)\dx \sigma,
 \end{equation*}
-valid for all $x\in \partial D$. Furthermore, $\mathcal{K}_D^0$ is self-adjoint in this case. For $y$ outside $D$ the function $\Gamma^0(x,y)$ is harmonic as a function of $x\in D$. Therefore 
+valid for all $x\in \partial D$. Furthermore, $\K_D^0$ is self-adjoint in this case. For $y$ outside $D$ the function $\Gamma^0(x,y)$ is harmonic as a function of $x\in D$. Therefore 
 \begin{equation*}
 \int_{\partial D} \frac{\partial \Gamma^0(x,y)}{\partial(x) \nu}\dx \sigma(x) = 0,
 \end{equation*}
@@ -152,32 +168,50 @@ and hence
 \end{equation*}
 It follows that 
 \begin{align*}
-\tilde{G}(x,y) &= \frac{1}{\lambda}\mathcal{S}_D^0 \left[\frac{\partial \Gamma^0(z,y)}{\partial \nu(z)} \right](x) \\
+\tilde{G_0}(x,y) &= \frac{1}{\lambda}\S_D^0 \left[\frac{\partial \Gamma^0(z,y)}{\partial \nu(z)} \right](x) \\
 &= \frac{1}{\lambda} \int_{\partial D} \Gamma^0(x,z) \frac{\partial \Gamma^0(z,y)}{\partial \nu(z)} \dx \sigma(z) \\
 &=\frac{1}{\lambda}\mathcal{D}_D^0 \left[\Gamma^0(z,x)\right](y)
 \end{align*}
 Taking the limit $y\rightarrow \partial D+$ and using the jump relation for the double layer potential $\mathcal{D}_D^0$, we find
 \begin{equation*}
-\tilde{G}_0(x,y) = -\frac{\Gamma^0(x,y)}{2\lambda} + \frac{1}{\lambda}\mathcal{K}_D^0\left[\Gamma^0(x,z)\right](y).
+\tilde{G}_0(x,y) = -\frac{\Gamma^0(x,y)}{2\lambda} + \frac{1}{\lambda}\K_D^0\left[\Gamma^0(x,z)\right](y).
 \end{equation*}
-Here $\mathcal{K}_D^0\left[\Gamma^0(x,z)\right](y)$ is a bounded constant $C(x)$ with respect to $y$ (and actually equals $\frac{1}{2}\Gamma^0(x,0)$). Plugging into the formula for $G$ we find
+Here $\K_D^0\left[\Gamma^0(x,z)\right](y)$ is a bounded constant $C(x)$ with respect to $y$ (and actually equals $\frac{1}{2}\Gamma^0(x,0)$). Plugging into the formula for $G_0$ we find
 \begin{equation*}
-G(x,y) = c\Gamma^0(x,y) + C(x),
+G_0(x,y) = c\Gamma^0(x,y) + C(x),
 \end{equation*}
 where 
 \begin{equation*}
 c = \frac{2}{\delta+1}.
 \end{equation*}
+Consequently $G_0(x,y)-c\Gamma(x,y)$ is smooth, so also for the crystal Green's function $G(x,y)-c\Gamma(x,y)$ is smooth. 
+
+The jump relations now follow by splitting the integral in $\S_D^\#$ to two integrals, with kernels $G(x,y)-c\Gamma^0(x,y)$ and $c\Gamma^0(x,y)$ respectively, and using the standard jump relations for $\S_D^0$. Explicitly, we have
+\begin{align*}
+\lim_{x\rightarrow \partial D \pm} \S_D^\#[\phi](x) &= \lim_{x\rightarrow \partial D \pm} \int_{\partial D} G(x,y) \phi(y)\dx \sigma(y) \\ 
+&= \lim_{x\rightarrow \partial D \pm} \int_{\partial D} \left(G(x,y)-c\Gamma^0(x,y)\right) \phi(y)\dx \sigma(y) +  \lim_{x\rightarrow \partial D \pm} \int_{\partial D} c\Gamma^0(x,y) \phi(y)\dx \sigma(y)\\ 
+&= \int_{\partial D}\left(G(x_0,y)-c\Gamma^0(x_0,y)\right) \phi(y)\dx \sigma(y) +   \int_{\partial D} c\Gamma^0(x_0,y) \phi(y)\dx \sigma(y)\\ 
+&= \S_D^\#[\phi](x_0), \quad x_0 \in \partial D
+\end{align*} 
+and \marginpar{\footnotesize Really simple computations but nasty formulas, do we need this?}
+\begin{align*}
+\lim_{x\rightarrow \partial D \pm} \frac{\partial \S_D^\#[\phi](x)}{\partial \nu} &= \lim_{x\rightarrow \partial D \pm} \frac{\partial}{\partial \nu}\int_{\partial D} G(x,y) \phi(y)\dx \sigma(y) \\ 
+&= \lim_{x\rightarrow \partial D \pm} \frac{\partial}{\partial \nu}\int_{\partial D} \left(G(x,y)-c\Gamma^0(x,y)\right) \phi(y)\dx \sigma(y) +  \lim_{x\rightarrow \partial D \pm} \frac{\partial}{\partial \nu}\int_{\partial D} c\Gamma^0(x,y) \phi(y)\dx \sigma(y)\\ 
+&= \int_{\partial D}\frac{\partial}{\partial \nu(x_0)}\left(G(x_0,y)-c\Gamma^0(x_0,y)\right)\bigg|_{\pm} \phi(y)\dx \sigma(y) \pm \frac{c\phi(x_0)}{2} + \int_{\partial D} \frac{\partial}{\partial \nu(x_0)}c\Gamma^0(x_0,y) \phi(y)\dx \sigma(y)\\ 
+&= \pm \frac{c\phi(x_0)}{2} + \K_D^{\#,\pm} [\phi](x_0), \quad x_0 \in \partial D
+\end{align*} 
+\end{proof}
 
 \subsection{Boundary integral formulation}
-Implies that the layer densities $\phi_i,\ i=1,2,3,4$ satisfies the system of boundary integral equations $\A(\omega, \delta)\Phi = 0$, where
+Using Proposition \ref{prop:jump} and the standard jump conditions for $\S_D^0$, the boundary conditions in equation \eqnref{eq:scattering} implies that the layer densities $\phi_i,\ i=1,2,3,4$ in equation \eqnref{eq:sol} satisfies the system of boundary integral equations
+\[\A(\omega, \delta)\Phi = 0,\] where
 \begin{equation} \label{eq:A}
 \A(\omega, \delta) = 
 \begin{pmatrix}
-\mathcal{S}_{D_d}^{k_b} &  -\mathcal{S}_{D_d}^{k} & -\mathcal{S}_{D_d,D}^{k} & 0 \\
-0 & \mathcal{S}_{D,D_d}^k & \mathcal{S}_{D}^k & -\Scrystal \\
--\frac{1}{2}I+ (\mathcal{K}_{D_d}^{k_b})^*& -\delta\left( \frac{1}{2}I+ (\mathcal{K}_{D_d}^{k})^*\right) & -\delta \frac{\partial \mathcal{S}_{D_d,D}^{k}}{\partial \nu} & 0 \\
-0 & \frac{\partial \mathcal{S}_{D,D_d}^{k}}{\partial \nu} & -\frac{1}{2}I+ (\mathcal{K}_D^{k})^* & -\left( \frac{1}{2}I+ \KstarC\right)
+\S_{D_d}^{k_b} &  -\S_{D_d}^{k} & -\S_{D_d,D}^{k} & 0 \\
+0 & \S_{D,D_d}^k & \S_{D}^k & -\Scrystal \\
+-\frac{1}{2}I+ (\K_{D_d}^{k_b})^*& -\delta\left( \frac{1}{2}I+ (\K_{D_d}^{k})^*\right) & -\delta \frac{\partial \S_{D_d,D}^{k}}{\partial \nu} & 0 \\
+0 & \frac{\partial \S_{D,D_d}^{k}}{\partial \nu} & -\frac{1}{2}I+ (\K_D^{k})^* & -\left( \frac{c}{2}I+ \left(\K_D^{\#,+}\right)^*\right)
 \end{pmatrix}, 
 \ \text{and}  \ \Phi= 
 \begin{pmatrix}
@@ -187,10 +221,10 @@ Implies that the layer densities $\phi_i,\ i=1,2,3,4$ satisfies the system of bo
 \phi_4
 \end{pmatrix}.
 \end{equation}
-Here the operator $\mathcal{S}_{D_d,D}^{k} = \mathcal{S}_{D}^{k}|_{x\in \partial D_d}$ is the restriction of $\mathcal{S}_{D}^{k}$ onto $\partial D_d$.
+Here the operator $\S_{D_d,D}^{k} = \S_{D}^{k}|_{x\in \partial D_d}$ is the restriction of $\S_{D}^{k}$ onto $\partial D_d$.
 
 \section{Simplified problem}
-By perturbing the size of one bubble, we expect one localized mode, which quickly decays away from the perturbed bubble. To model this behavior, we first consider a simpler problem. Intuitively, the exponential decay means that the solution $u(x)$ is close to zero for $x$ large enough. In this simplified problem, we assume that $u(x)=0$ for $|x|=R_b$, i.e. for $x$ on the large bubble $D$, and only consider the problem inside $D$. We therefore consider the Dirichlet problem
+In this section we consider a model problem which is simpler than the original problem. The goal is to verify that the intuitive argument is reasonable. By slightly shrinking the size of one bubble, we expect one localized mode, which quickly decays away from the perturbed bubble. The exponential decay means that the solution $u(x)$ is close to zero for $x$ away from the defect bubble. In this simplified problem, we assume that $u(x)=0$ for $|x|=R_b$, i.e. for $x$ on the large bubble $D$, and only consider the problem inside $D$. If this problem has a resonant mode, we expect the original problem to have a resonant mode corresponding to the defect bubble. We therefore consider the Dirichlet problem
 \begin{equation} \label{eq:simple}
 \left\{
 \begin{array} {ll}
@@ -208,17 +242,17 @@ By perturbing the size of one bubble, we expect one localized mode, which quickl
 We seek the resonance frequencies, i.e. the frequencies $\omega$ such that equation \eqnref{eq:simple} has a non-trivial solution. This problem is solved numerically using two different methods. Similarly to equation \eqnref{eq:sol}, we seek a solution of the form 
 \begin{equation} \label{eq:simplesol}
 u(x) = \begin{cases}
-\mathcal{S}_{D_d}^{k_b}[\phi_1](x) \quad &x\in D_d \\
-\mathcal{S}_{D_d}^{k}[\phi_2](x) + S_D^k[\phi_3](x) & x\in D\setminus D_d,
+\S_{D_d}^{k_b}[\phi_1](x) \quad &x\in D_d \\
+\S_{D_d}^{k}[\phi_2](x) + S_D^k[\phi_3](x) & x\in D\setminus D_d,
 \end{cases}
 \end{equation}
 satisfying $\tilde{\A}(\omega, \delta)\Phi = 0$, where
 \begin{equation} \label{eq:simpleA}
 \tilde{\A}(\omega, \delta) = 
 \begin{pmatrix}
-\mathcal{S}_{D_d}^{k_b} &  -\mathcal{S}_{D_d}^{k} & -\mathcal{S}_{D_d,D}^{k} \\
-0 & \mathcal{S}_{D,D_d}^k & \mathcal{S}_{D}^k \\
--\frac{1}{2}I+ (\mathcal{K}_{D_d}^{k_b})^*& -\delta\left( \frac{1}{2}I+ \left(\mathcal{K}_{D_d}^{k}\right)^*\right) & -\delta \frac{\partial \mathcal{S}_{D_d,D}^{k}}{\partial \nu}
+\S_{D_d}^{k_b} &  -\S_{D_d}^{k} & -\S_{D_d,D}^{k} \\
+0 & \S_{D,D_d}^k & \S_{D}^k \\
+-\frac{1}{2}I+ (\K_{D_d}^{k_b})^*& -\delta\left( \frac{1}{2}I+ \left(\K_{D_d}^{k}\right)^*\right) & -\delta \frac{\partial \S_{D_d,D}^{k}}{\partial \nu}
 \end{pmatrix}, 
 \ \text{and}  \ \Phi= 
 \begin{pmatrix}
@@ -279,6 +313,7 @@ The conclusion is that we also have resonance in the model problem, and that the
 
 \section{Numerical implementation}
 We seek a spatial discretization of the boundary integral formulation. The factors $\Scrystal$ and $\KstarC$ require the Green's function $G$ for the crystal, so the equation \eqnref{eq:G} has to be solved numerically. We will apply the method found in \cite{bandgap}.
+
 Applying the Floquet transform we can decompose $G$ into the $\alpha$-quasiperiodic Green's function $G_\alpha$ which satisfies
 \begin{equation*}
 \Delta G_\alpha + (k^2+(k_b^2-k^2)\chi(\C))G_\alpha = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}
@@ -298,18 +333,17 @@ Here $\alpha$ is in the so called first Brillouin zone $[0,2\pi]^2$. Let $Y= [-1
 \end{array}
 \right.
 \end{equation}
-Because of the reciprocity relation $G_\alpha(x,y) = G_\alpha(y,x)$, also $e^{-i \alpha \cdot y} G_\alpha(x,y)$ is periodic in $y$, so we can restrict to the case $y\in Y$. Recall that the quasi-periodic Green's function $\Gamma_\alpha^k$, defined as the solution to the equation
+Because of the reciprocity relation $G_\alpha(x,y) = G_\alpha(y,x)$, also $e^{-i \alpha \cdot y} G_\alpha(x,y)$ is periodic in $y$, so we can restrict to the case $y\in Y$. Let $\Gamma_\alpha^k$ be the quasi-periodic Green's function, defined as the solution to the equation
 \begin{equation*}
-\Delta \Gamma_\alpha^k(x,y) + k^2\Gamma_\alpha\alpha^k(x,y) = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}
+\Delta \Gamma_\alpha^k(x,y) + k^2\Gamma_\alpha^k(x,y) = \sum_{n\in \Z} \delta(x-y-n)e^{in\cdot\alpha}.
 \end{equation*}
-can be expanded as 
+This Green's function can be expanded as
 \begin{equation} \label{eq:quasihomogenious}
 \Gamma_\alpha^k(x,y) = -\frac{i}{4}\sum_{m\in \Z^2} H_0^{(1)}(k|x-y-m|)e^{im\cdot\alpha}
 \end{equation}
-Then $G_\alpha$ can be written
-
+The function $G_\alpha-\Gamma_\alpha^k$ satisfies \eqnref{eq:quasiperiodic} without the Dirac mass, so we can write
 \begin{equation} \label{eq:G_a}
-G_\alpha(x,y) = \begin{cases} \Gamma_\alpha^{k_b}(x,y) + S_D^{k_b}[\psi_b](x) \quad &x\in D \\  \Gamma_\alpha^{k}(x,y) + S_D^{k}[\psi](x) &x\in Y \backslash \bar{D} \end{cases}
+G_\alpha(x,y) = \begin{cases} \Gamma_\alpha^{k_b}(x,y) + S_D^{k_b}[\psi_b](x) \quad &x\in D \\  \Gamma_\alpha^{k}(x,y) + S_D^{\alpha,k}[\psi](x) &x\in Y \backslash \bar{D} \end{cases}
 \end{equation}
 Using the jump relations for the single layer potentials, we find that
 \begin{equation*}
@@ -319,8 +353,8 @@ where
 \begin{equation*}
 \B(\omega, \delta) = 
 \begin{pmatrix}
-\mathcal{S}_D^{k_b} &  -\mathcal{S}_D^{\alpha,k}  \\
--\frac{1}{2}+ \mathcal{K}_D^{k_b, *}& -\delta( \frac{1}{2}+ (\mathcal{K}_D^{ -\alpha,k})^*)
+\S_D^{k_b} &  -\S_D^{\alpha,k}  \\
+-\frac{1}{2}+ \K_D^{k_b, *}& -\delta( \frac{1}{2}+ (\K_D^{ -\alpha,k})^*)
 \end{pmatrix}, 
 \,\, \Psi= 
 \begin{pmatrix}
@@ -395,12 +429,32 @@ M_n' = \begin{cases}
 (-1)^nkH'_{n}(kR_b)J_{-n}(kr')e^{-in\theta'} \quad &\text{if } r' < R_b.
 \end{cases}
 \end{equation*}
-Using these Fourier coefficients we can solve the system \eqnref{eq:G_a} to find $G_\alpha(x,y)$ for $x\in \partial D$. The Green's function $G$ is then found using the formula
+The system \eqnref{eq:G_a} is discretized by truncating these sums, and is solved to find $G_\alpha(x,y)$. The Green's function $G$ is then found using the formula
 \begin{equation*}
 G(x,y) = \frac{1}{(2\pi)^2}\int_{[0,2\pi]^2} G_\alpha(x,y) \dx \alpha,
 \end{equation*}
 i.e. $G$ is the average of $G_\alpha$ over the first Brillouin zone. 
 
+\section{Asymptotic expansions as $\epsilon \rightarrow 0$}
+Here we derive the asymptotic expansions of the operators $\S_{D_d}, \S_{D,D_d}, \S_{D_d,D}$. Let $x,y\in \partial D$ and let $\tilde{x} = x - \epsilon \nu(x) \in \partial D_d$. For a layer density $\phi$ on $\partial D$, define $\tilde{\phi}$ on $\partial D_d$ by $\tilde{\phi}(\tilde{x}) = \phi (x)$.
+
+The asymptotic expansion of $\S_{D_d}$ is computed in \cite{lecturenotes} and is in this case given by
+\begin{equation*}
+\S_{D_d}^k[\tilde{\phi}](\tilde{x}) = \S_D^k[\phi](x) +\epsilon \left(\frac{1}{R_b}\S_D^k[\phi](x) - \K_D^k[\phi](x) - \left(\K_D^k\right)^*[\phi](x)\right) + \O(\epsilon^2)
+\end{equation*}
+
+To find the expansion of $\S_{D_d,D}$, let $x,y\in \partial D$ and let $\tilde{x} = x - \epsilon \nu(x)$. Observe that the normal of $D$ satisfies $\nu(x) = \hat{x}$. Then the Taylor expansion 
+\begin{equation*}
+\Gamma^k(\tilde{x},y) = \Gamma^k(x,y) - \epsilon \frac{\partial \Gamma^k(x,y)}{\partial \nu(x)} + \O(\epsilon^2)
+\end{equation*}
+is valid for $x\neq y$. It follows that \marginpar{\footnotesize Split into integral with $y$ away from $x$ and $y$ close to $x$.}
+\begin{equation*}
+\S_{D_d,D}^k[\phi](\tilde{x}) = \S_D^k[\phi](x) -\epsilon \left(\K_D^k\right)^*[\phi](x) + \O(\epsilon^2)
+\end{equation*}
+In a similar way, we find that 
+\begin{equation*}
+\S_{D,D_d}^k[\tilde{\phi}](x) = \S_D^k[\phi](x) +\epsilon \left(\frac{1}{R_b}\S_D^k[\phi](x) - \K_D^k[\phi](x) \right) + \O(\epsilon^2)
+\end{equation*}
 
 \bibliography{defect}{}
 \bibliographystyle{plain}
