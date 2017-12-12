@@ -21,13 +21,13 @@ nPoints = length(B.points);
 
 A11 = ops.SingleLayer_H(k_b, B_d, 'P0', 1);
 A12 = ops.SingleLayer_H(k, B_d, 'P0', 1);
-A13 = ops.SingleLayer_H(k, B_d, 'P0', 1, B, 'P0', 1);    
-A22 = ops.SingleLayer_H(k, B, 'P0', 1, B_d, 'P0', 1);
+A13 = ops.SingleLayer_H(k, B, 'P0', 1, B_d, 'P0', 1);    
+A22 = ops.SingleLayer_H(k, B_d, 'P0', 1, B, 'P0', 1);
 A23 = ops.SingleLayer_H(k, B, 'P0', 1);
 A31 = ops.Kstar_H(k_b, B_d, 'P0', 1);
-A32 = ops.Kstar_H(k, B, 'P0', 1);
-A33 = ops.Kstar_H(k, B_d, 'P0', 1, B, 'P0', 1);
-A42 = ops.Kstar_H(k, B, 'P0', 1, B_d, 'P0', 1);
+A32 = ops.Kstar_H(k, B_d, 'P0', 1);
+A33 = ops.Kstar_H(k, B, 'P0', 1, B_d, 'P0', 1);
+A42 = ops.Kstar_H(k, B_d, 'P0', 1, B, 'P0', 1);
 A43 = ops.Kstar_H(k, B, 'P0', 1);
 [A24, A44] = ops.make_S_K_C(omega, v, v_b, delta, B);
 

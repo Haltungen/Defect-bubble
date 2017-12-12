@@ -18,7 +18,7 @@ close all
 distTol = 5e-4;
 fTol = 1e-10;
 iterMax = 100;
-nPoints = 100;
+nPoints = 15;
 
 rho = 5000;
 rho_b = 1;
@@ -37,29 +37,10 @@ r_y = 0;
 theta_y = 0;
 y = r_y*[cos(theta_y), sin(theta_y)];
 
-green = @(x1,x2,k) -1i/4*besselh(0,k*sqrt((x1-y(1)).^2+(x2-y(2)).^2));
-
-% NN = 3;     % Order of fourier series
-% N1 = 3;     % Order of truncation for lattice sum
-% N2 = 5;     % Order of trucation for FFT   
-% N4 = 10;    % Number of discretization points in quadrature for integrating G_alphabubble
-R_b = 0.05;   % Size of crystal bubbles
-R_d = 0.045;  % Size of defect bubble
-B = shape.Ellipse(R_b, R_b, nPoints);
-B_d = shape.Ellipse(R_d, R_d, nPoints);
-
-RHS = makeRHS(k, k_b, delta, y, B_d);
-matrix_A = A(omega, v, v_b, delta, B, B_d);
-Phi = matrix_A\RHS;
-phi1 = Phi(1:nPoints);
-phi2 = Phi(nPoints+1:2*nPoints);
-phi3 = Phi(2*nPoints+1:3*nPoints);
-phi4 = Phi(3*nPoints+1:4*nPoints);
-
 % Grid for field
-gridMax = 0.055;
-gridN = 100;
-gridMinX1 = 0.05;
+gridMax = 0.03;
+gridN = 25;
+gridMinX1 = -0;
 gridMaxX1 = gridMax;
 gridMinX2 = -gridMax;
 gridMaxX2 = gridMax;
@@ -74,7 +55,25 @@ uResponse = zeros(gridPointsN, 1);
 uGreen = zeros(gridPointsN, 1);
 uTotal = zeros(gridPointsN, 1);
 
-for j = 1:gridPointsN
+green = @(x1,x2,k) -1i/4*besselh(0,k*sqrt((x1-y(1)).^2+(x2-y(2)).^2));
+
+% NN = 3;     % Order of fourier series
+% N1 = 3;     % Order of truncation for lattice sum
+% N2 = 5;     % Order of trucation for FFT   
+% N4 = 10;    % Number of discretization points in quadrature for integrating G_alphabubble
+R_b = 0.05;   % Size of crystal bubbles
+R_d = 0.02;  % Size of defect bubble
+B = shape.Ellipse(R_b, R_b, nPoints);
+B_d = shape.Ellipse(R_d, R_d, nPoints);
+
+RHS = makeRHS(k, k_b, delta, y, B_d);
+matrix_A = A(omega, v, v_b, delta, R_b, R_d, nPoints);
+Phi = matrix_A\RHS;
+phi1 = Phi(1:nPoints);
+phi2 = Phi(nPoints+1:2*nPoints);
+phi3 = Phi(2*nPoints+1:3*nPoints);
+
+parfor j = 1:gridPointsN
     gridPoint = gridPoints(:, j);    
     % Determine in which region we are in
     if gridPoint(1)^2 + gridPoint(2)^2  <= R_d^2  
@@ -85,21 +84,15 @@ for j = 1:gridPointsN
         uResponse(j) = ops.S_H(k, R_d, phi2, gridPoint(1), gridPoint(2))+ops.S_H(k, R_b, phi3, gridPoint(1), gridPoint(2));
         uGreen(j) = green(gridPoint(1), gridPoint(2), k);
         uTotal(j) = uResponse(j) + uGreen(j);
-    else
-        uResponse(j) = ops.S_BiPeriodic_C(R_b,omega,v,v_b,delta, phi4, gridPoint(1), gridPoint(2));
-        uGreen(j) = green(gridPoint(1), gridPoint(2), k);
-        uTotal(j) = uResponse(j) + uGreen(j);        
     end
 end
 
-plot(g1,uTotal)
+% Format the fields for plotting
+uGreen = reshape(uGreen, [gridN gridN]);
+uResponse = reshape(uResponse, [gridN gridN]);
+uTotal = reshape(uTotal, [gridN gridN]);
 
-% % Format the fields for plotting
-% uGreen = reshape(uGreen, [gridN gridN]);
-% uResponse = reshape(uResponse, [gridN gridN]);
-% uTotal = reshape(uTotal, [gridN gridN]);
-% 
-% hFig = figure(1);
-% set(hFig, 'Position', [100 100 1200 900]);
-% surf(g1, g2, real(uTotal), 'edgecolor', 'none'); xlabel('x1'); ylabel('x2'); title('Greens function for the defect crystal')
-% axis([gridMinX1, gridMaxX1, gridMinX2, gridMaxX2, min(real(uTotal(:))), max(real(uTotal(:))) ]); rotate3d on;
+hFig = figure(1);
+set(hFig, 'Position', [100 100 1200 900]);
+surf(g1, g2, real(uTotal), 'edgecolor', 'none'); xlabel('x1'); ylabel('x2'); title('Greens function for the defect crystal')
+axis([gridMinX1, gridMaxX1, gridMinX2, gridMaxX2, min(real(uTotal(:))), max(real(uTotal(:))) ]); rotate3d on;

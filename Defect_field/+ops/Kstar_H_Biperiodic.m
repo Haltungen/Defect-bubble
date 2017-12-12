@@ -15,7 +15,7 @@
             K = zeros(N, N);
              
             for i = 1:N
-                grad = ops.GradGBiPeriodic(k, D(1,i)-D(1,:), D(2,i)-D(2,:), d1, d2, alpha);
+                grad = ops.GradGBiPeriodic(k, D(1,i)-D(1,:), D(2,i)-D(2,:), d1, d2, -alpha);
                 K(i, :) = (normal(:,i)'*grad).*sigma;
                 
                 tvec_norm_square = tvec(1,:).^2 + tvec(2,:).^2;

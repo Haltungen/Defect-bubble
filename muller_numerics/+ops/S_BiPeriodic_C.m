@@ -27,7 +27,7 @@ function out = S_BiPeriodic_C(r,omega,v,v_b,delta, F, x1, x2)
             if xminusy < tol % Singular term
                 Ker(l,n) = 1/(2*pi)*(log(dsigma) - 1);
             else
-                Ker(l,n) = G(points1,points2,[x1;x2],omega,v,v_b,delta,r);
+                Ker(l,n) = tools.G(points1(n),points2(n),[x1(l);x2(l)],omega,v,v_b,delta,r);
             end
         end
     end

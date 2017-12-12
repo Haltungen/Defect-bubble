@@ -45,7 +45,7 @@ for i=1:N
     % Diagonal terms.
     c = 2/(delta+1);
     outS(i,i) = c/(2*pi)*sigma_D(i)*(log(sigma_D(i)) - 1);
-    outK(i,i) = c/(4*pi*R_b); % page 22 in Tutorial notes, for D=circle
+    outK(i,i) = sigma_D(i)*c/(4*pi*R_b); % page 22 in Tutorial notes, for D=circle
     %outS(i,i) = 1/2 * (outS(i, i-1) +  outS(i, i+1));
     %outK(i,i) = 1/2 * (outK(i, i-1) +  outK(i, i+1));
 end

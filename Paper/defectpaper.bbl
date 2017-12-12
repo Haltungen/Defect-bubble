@@ -16,4 +16,22 @@ H.~{Ammari}, B.~{Fitzpatrick}, H.~{Lee}, S.~{Yu}, and H.~{Zhang}.
 \newblock {Subwavelength phononic bandgap opening in bubbly media}.
 \newblock {\em ArXiv e-prints}, February 2017.
 
+\bibitem{asymptotics}
+Habib Ammari, Hyeonbae Kang, and Eunjoo Kim.
+\newblock Approximate boundary conditions for patch antennas mounted on thin
+  dielectric layers.
+\newblock 1, 04 2006.
+
+\bibitem{asymptoticsderivative}
+Abdessatar Khelifi and Habib Zribi.
+\newblock Asymptotic expansions for the voltage potentials with two-dimensional
+  and three-dimensional thin interfaces.
+\newblock {\em Mathematical Methods in the Applied Sciences},
+  34(18):2274--2290, 2011.
+
+\bibitem{weakdifffcn}
+William~P. Ziemer.
+\newblock {\em Weakly Differentiable Functions}.
+\newblock Springer-Verlag New York, Inc., New York, NY, USA, 1989.
+
 \end{thebibliography}

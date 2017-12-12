@@ -7,45 +7,46 @@ I was expecting an "="---line 39 of file defect.bib
  : ARTICLE 
  :         NUMBER = {82},
 I'm skipping whatever remains of this entry
-You've used 3 entries,
+Warning--empty journal in asymptotics
+You've used 6 entries,
             2118 wiz_defined-function locations,
-            512 strings with 4523 characters,
-and the built_in function-call counts, 1056 in all, are:
-= -- 91
-> -- 89
+            533 strings with 5070 characters,
+and the built_in function-call counts, 1902 in all, are:
+= -- 173
+> -- 127
 < -- 1
-+ -- 35
-- -- 32
-* -- 87
-:= -- 206
-add.period$ -- 9
-call.type$ -- 3
-change.case$ -- 25
++ -- 50
+- -- 44
+* -- 144
+:= -- 353
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 39
 chr.to.int$ -- 0
-cite$ -- 3
-duplicate$ -- 29
-empty$ -- 50
-format.name$ -- 32
-if$ -- 195
+cite$ -- 7
+duplicate$ -- 62
+empty$ -- 118
+format.name$ -- 44
+if$ -- 367
 int.to.chr$ -- 0
-int.to.str$ -- 3
-missing$ -- 2
-newline$ -- 18
-num.names$ -- 6
-pop$ -- 23
+int.to.str$ -- 6
+missing$ -- 6
+newline$ -- 33
+num.names$ -- 12
+pop$ -- 39
 preamble$ -- 1
-purify$ -- 22
+purify$ -- 34
 quote$ -- 0
-skip$ -- 19
+skip$ -- 41
 stack$ -- 0
-substring$ -- 15
-swap$ -- 3
+substring$ -- 61
+swap$ -- 5
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 12
-warning$ -- 0
-while$ -- 6
-width$ -- 4
-write$ -- 34
+type$ -- 22
+warning$ -- 1
+while$ -- 14
+width$ -- 7
+write$ -- 66
 (There was 1 error message)

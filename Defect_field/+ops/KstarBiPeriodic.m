@@ -29,7 +29,7 @@ function out = KstarBiPeriodic(k, alpha, r, F, x1, x2)
                 G(l,n) = 1/(4*pi*r);
             else
                 theta_x = atan2(x2(l),x1(l));
-                G(l,n) = dot([cos(theta_x);sin(theta_x)],ops.GradGBiPeriodic(k, x1(l)-points1(n), x2(l)-points2(n), 1, 1, alpha));
+                G(l,n) = dot([cos(theta_x);sin(theta_x)],ops.GradGBiPeriodic(k, x1(l)-points1(n), x2(l)-points2(n), 1, 1, -alpha));
             end
         end
     end

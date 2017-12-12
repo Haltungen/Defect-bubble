@@ -11,12 +11,12 @@ k_b = omega * v_b;
 
 A11 = ops.SingleLayer_H(k_b, B_d, 'P0', 1);
 A12 = ops.SingleLayer_H(k, B_d, 'P0', 1);
-A13 = ops.SingleLayer_H(k, B_d, 'P0', 1, B, 'P0', 1);    
-A22 = ops.SingleLayer_H(k, B, 'P0', 1, B_d, 'P0', 1);
+A13 = ops.SingleLayer_H(k, B, 'P0', 1, B_d, 'P0', 1);    
+A22 = ops.SingleLayer_H(k, B_d, 'P0', 1, B, 'P0', 1);
 A23 = ops.SingleLayer_H(k, B, 'P0', 1);
 A31 = ops.Kstar_H(k_b, B_d, 'P0', 1);
 A32 = ops.Kstar_H(k, B_d, 'P0', 1);
-A33 = ops.Kstar_H(k, B_d, 'P0', 1, B, 'P0', 1);
+A33 = ops.Kstar_H(k, B, 'P0', 1, B_d, 'P0', 1);
 
 
 out = [ A11.Kmat, -1.*A12.Kmat, -A13.Kmat ; ...

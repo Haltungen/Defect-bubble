@@ -48,10 +48,10 @@ out = zeros(M,1);
 d_nu_plus = zeros(M,1);
 for j = 1:M
     theta_x = atan2(x2(j),x1(j));
-    if sqrt(x1(j)*x1(j)+x2(j)*x2(j)) < R_b 
+    if sqrt(x1(j)*x1(j)+x2(j)*x2(j)) <= R_b 
         out(j) = ops.S_H(k_b, R_b, phi_b, x1(j), x2(j))+ops.GBiPeriodic(k_b, x1(j)-y(1), x2(j)-y(2), L, L, alpha);
     else
         out(j) = ops.SBiPeriodic(k, alpha, R_b, phi, x1(j), x2(j))+ops.GBiPeriodic(k, x1(j)-y(1), x2(j)-y(2), L, L, alpha);
     end
-    d_nu_plus(j) = sum((Gamma_k_nu+0.5*phi_hat).*exp(1i.*n.*theta_x)) + ops.KstarBiPeriodic(k, alpha, R_b, phi, x1(j), x2(j)); % Assumes x-> \partial D +
+    d_nu_plus(j) = sum((Gamma_k_nu+0.5*phi_hat).*exp(1i.*n.*theta_x)) + ops.KstarBiPeriodic(k, alpha, R_b, phi, x1(j), x2(j)); %Assumes x-> \partial D +
 end

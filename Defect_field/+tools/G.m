@@ -20,11 +20,11 @@
 
 function [out, d_nu_plus] = G(x1,x2,y,omega,v,v_b,delta,R_b,NN,N1,N2,N3,N4)
 if nargin < 13 % Default parameters
-    NN = 2;
-    N1 = 1;
-    N2 = 1;     
-    N3 = 5;
-    N4 = 5;
+    NN = 5;
+    N1 = 3;
+    N2 = 3;     
+    N3 = 10;
+    N4 = 10;
 end
 M = length(x1);
 out = zeros(M,1);

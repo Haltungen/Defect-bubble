@@ -31,12 +31,13 @@
 \usepackage{float}
 \captionsetup{font={small,it}}
 \theoremstyle{definition}
-\newcommand{\D}{\mathbb{D}}
+\newcommand{\D}{\mathcal{D}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathcal{C}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\B}{\mathcal{B}}
+\renewcommand{\L}{\mathcal{L}}
 \renewcommand{\S}{\mathcal{S}}
 \newcommand{\K}{\mathcal{K}}
 \renewcommand{\O}{\mathcal{O}}
@@ -59,7 +60,7 @@ We consider acoustic wave propagation in a crystal with bubbles repeated in a pe
 
 
 \section{Problem statement}
-Assume that a single bubble occupies $D$, which is a circle of radius $R_b$ and center at the origin. Let $\C = \cup_{n\in\Z^2}(D+n)$ be the periodic bubble crystal. Consider now a perturbed crystal, where $D$ is replaced by a defect circle $D_d$ of radius $R_d < R_b$. Let $\C_d = D_d \cup \left( \cup_{n\in\Z^2\setminus\{0,0\}} D+n \right)$ be the perturbed crystal and let $\epsilon = R_b-R_d$ be the perturbation in the radius. We consider the following problem
+Assume that a single bubble occupies $D$, which is a circle of radius $R_b$ and center at the origin. Let $\C = \cup_{n\in\Z^2}(D+n)$ be the periodic bubble crystal. Consider now a perturbed crystal, where $D$ is replaced by a defect circle $D_d$ of radius $R_d < R_b$. Let $\C_d = D_d \cup \left( \cup_{n\in\Z^2\setminus\{0,0\}} D+n \right)$ be the perturbed crystal and let $\epsilon = R_b-R_d$ be the perturbation of the radius. We consider the following problem
 \begin{equation} \label{eq:scattering}
 \left\{
 \begin{array} {ll}
@@ -126,7 +127,7 @@ For $x$ close to $y$ on the boundary of a bubble, $|x-y|$ is small compared to t
 \left\{
 \begin{array}{ll}
 	&\ds \Delta G_0 = \delta(x-y) \quad \text{in}\quad \R^2 \\
-	&\ds \frac{1}{\rho}\frac{\partial G_0}{\partial \nu}\bigg|_+ - \frac{1}{\rho}\frac{\partial G_0}{\partial \nu}\bigg|_- = 0 \quad \text{in} \quad \partial D \\
+	&\ds \frac{1}{\rho}\frac{\partial G_0}{\partial \nu}\bigg|_+ - \frac{1}{\rho_b}\frac{\partial G_0}{\partial \nu}\bigg|_- = 0 \quad \text{in} \quad \partial D \\
 	&\ds G_0 \text{ satisfies Sommerfeld radiation condition} 
 \end{array}
 \right.	
@@ -156,7 +157,7 @@ For a disk $D$, the operator $\left(\K_D^0\right)^*$ has an explicit expression
 \end{equation*}
 valid for all $x\in \partial D$. Furthermore, $\K_D^0$ is self-adjoint in this case. For $y$ outside $D$ the function $\Gamma^0(x,y)$ is harmonic as a function of $x\in D$. Therefore 
 \begin{equation*}
-\int_{\partial D} \frac{\partial \Gamma^0(x,y)}{\partial(x) \nu}\dx \sigma(x) = 0,
+\int_{\partial D} \frac{\partial \Gamma^0(x,y)}{\partial \nu(x)}\dx \sigma(x) = 0,
 \end{equation*}
 so it can easily be shown that 
 \begin{equation*}
@@ -281,7 +282,7 @@ k_bJ_n'(k_bR_d) & -\delta kJ_n'(kR_d) & -\delta k H^{(1)'}_n(kR_d)\\
 a_n \\ b_n \\ c_n
 \end{pmatrix} = 0.
 \end{equation*}
-We therefore seek the $\omega$ such that for some $n$, this system is not invertible. It is intuitively clear that the first resonant frequency will contain a factor with $n=0$. Thus, the lowest resonant frequency corresponds to the matrix
+We therefore seek the $\omega$ such that for some $n$, this system is not invertible. It is intuitively clear that the first resonant frequency will contain a factor with $n=0$, because the first resonance will have the least amount of oscillations. Thus, the lowest resonant frequency corresponds to the matrix
 \begin{equation*} 
 \begin{pmatrix}
 J_0(k_bR_d) &  -J_0(kR_d) & -H_0^{(1)}(kR_d) \\
@@ -368,7 +369,7 @@ where
 \frac{\partial \Gamma_\alpha^{k_b}}{\partial \nu} 
 \end{pmatrix}
 \end{equation*}
-The method in \cite{bandgap} uses the Fourier basis $e^{in\theta}$, so  we need to expand the function $\Gamma_\alpha^k(x,y)$ in terms of the polar coordinates $(r,\theta)$ of $x$. We will use the following version of Graf's addition theorem.
+The method in \cite{bandgap} discretizes this system using the Fourier basis $e^{in\theta}$, so  we need to expand the function $\Gamma_\alpha^k(x,y)$ in terms of the polar coordinates $(r,\theta)$ of $x$. We will use the following version of Graf's addition theorem.
 
 \begin{equation*}
 H_l^{(1)}(kr_2)e^{il\theta_2} =
@@ -436,25 +437,142 @@ G(x,y) = \frac{1}{(2\pi)^2}\int_{[0,2\pi]^2} G_\alpha(x,y) \dx \alpha,
 i.e. $G$ is the average of $G_\alpha$ over the first Brillouin zone. 
 
 \section{Asymptotic expansions as $\epsilon \rightarrow 0$}
-Here we derive the asymptotic expansions of the operators $\S_{D_d}, \S_{D,D_d}, \S_{D_d,D}$. Let $x,y\in \partial D$ and let $\tilde{x} = x - \epsilon \nu(x) \in \partial D_d$. For a layer density $\phi$ on $\partial D$, define $\tilde{\phi}$ on $\partial D_d$ by $\tilde{\phi}(\tilde{x}) = \phi (x)$.
+We begin with the asymptotic expansions of the operators $\S_{D_d}, \S_{D,D_d}, \S_{D_d,D}$. Let $x,y\in \partial D$ and let $\tilde{x} = x - \epsilon \nu(x) \in \partial D_d$. For a layer density $\phi$ on $\partial D$, define $\tilde{\phi}$ on $\partial D_d$ by $\tilde{\phi}(\tilde{x}) = \phi (x)$.
 
-The asymptotic expansion of $\S_{D_d}$ is computed in \cite{lecturenotes} and is in this case given by
+\begin{prop}\label{prop:asympsingle}
+	Let $\phi \in L^2(\partial D)$ and let $x,y,\tilde{x},\tilde{y},\tilde{\phi}$ be as above. Then 
 \begin{equation*}
-\S_{D_d}^k[\tilde{\phi}](\tilde{x}) = \S_D^k[\phi](x) +\epsilon \left(\frac{1}{R_b}\S_D^k[\phi](x) - \K_D^k[\phi](x) - \left(\K_D^k\right)^*[\phi](x)\right) + \O(\epsilon^2)
+\S_{D_d,D}^k[\phi](\tilde{x}) = \S_D^k[\phi](x) -\epsilon \left(-\frac{1}{2}I + \left(\K_D^k\right)^*\right)[\phi](x) + o(\epsilon),
 \end{equation*}
+\begin{equation*}
+\S_{D_d}^k[\tilde{\phi}](\tilde{x}) = \S_D^k[\phi](x) - \epsilon \left(\frac{1}{R_b}\S_D^k + \K_D^k + \left(\K_D^k\right)^*\right)[\phi](x) + o(\epsilon)
+\end{equation*}
+\begin{equation*}
+\S_{D,D_d}^k[\tilde{\phi}](x) = \S_D^k[\phi](x) - \epsilon \left(-\frac{1}{2}I+ \frac{1}{R_b}\S_D^k + \K_D^k \right)[\phi](x) + o(\epsilon)
+\end{equation*}
+where the $o(\epsilon)$-terms depend on $\|\phi\|_{L^2(\partial D)}$.
+\end{prop}
+\begin{proof}
+The proof is given in \cite{asymptotics}, but in our case with the Taylor expansions in the $L^2$ sense (as given in \cite{weakdifffcn}, Theorem 3.4.2).
+\end{proof}
+\begin{prop} \label{prop:asympK}
+	Let $\phi \in L^2(\partial D)$ and let $x,y,\tilde{x},\tilde{y},\tilde{\phi}$ be as above. Then 
+	\begin{equation*}
+	\left(\K_{D_d}^k\right)^*[\tilde{\phi}](\tilde{x}) = \left(\K_{D}^k\right)^*[\phi](x) - \epsilon \left(\K_1\right) + \O(\epsilon^2)
+	\end{equation*}
+	where $\K_1$ is given by
+	\begin{equation*}
+	\K_1 = \frac{1}{R_b}\left(\K_D^k\right)^* + \frac{k^2}{R_b} \int_{\partial D} \langle x-y,\nu_x \rangle H_0''(k|x-y|)\phi(y)\dx \sigma(y)
+	\end{equation*}
+	and the $\O(\epsilon)$-term depends on $\|\phi\|_{L^2}$.
+\end{prop}
+\begin{proof}
+The explicit expansion of $\K_{D_d}^*$ is derived in \cite{lecturenotes} for the Laplace case. We compute this in our case. Because $\partial D$ and $\partial D_d$ are circles, we have
+\begin{equation} \label{eq:dsigma}
+\dx \sigma(\tilde{y}) = \left( 1-\frac{\epsilon}{R_b} \right) \dx \sigma(y).
+\end{equation}
+Furthermore, again using that the boundaries are circles, we have
+\begin{align*}
+\frac{\partial}{\partial \nu_{\tilde{x}}} H_0(k|\tilde{x}-\tilde{y}|) &= kH_0'(k|\tilde{x}-\tilde{y}|)\frac{\langle \tilde{x}-\tilde{y},\nu_{\tilde{x}} \rangle}{|\tilde{x}-\tilde{y}|} \\
+&= kH_0'(k|\tilde{x}-\tilde{y}|)\frac{\langle x-y,\nu_{x} \rangle}{|x-y|}
+\end{align*}
+and
+\begin{align*}
+H_0'(k|\tilde{x}-\tilde{y}|) &= H_0'\left(k|x-y|\left( 1-\frac{\epsilon}{R_b} \right)\right) \\
+&= H_0'\left(k|x-y|\right) - \frac{\epsilon}{R_b}k|x-y|H_0''\left(k|x-y|\right) + \O(\epsilon^2)
+\end{align*} 
+It follows that 
+\begin{align*}
+\left(\K_{D_d}^k\right)^*[\tilde{\phi}](\tilde{x}) &= \int_{D_d} \frac{\partial}{\partial \nu_{\tilde{x}}} H_0'(k|\tilde{x}-\tilde{y}|) \tilde{\phi}({\tilde{y}}) \dx\sigma(\tilde{y}) \\
+&= \int_{D} k\left( H_0'\left(k|x-y|\right) - \frac{\epsilon}{R_b}k|x-y|H_0''\left(k|x-y|\right) \right)\frac{\langle x-y,\nu_{x} \rangle}{|x-y|} \left( 1-\frac{\epsilon}{R_b} \right) \phi(y)\dx\sigma(y) + \O(\epsilon^2) \\
+&= \int_{D} k H_0'\left(k|x-y|\right)\frac{\langle x-y,\nu_{x} \rangle}{|x-y|} \dx \sigma(y) \\
+& \quad -\epsilon \left[\frac{1}{R_b}\int_{D} k H_0'\left(k|x-y|\right)\frac{\langle x-y,\nu_{x} \rangle}{|x-y|} \dx \sigma(y) + \frac{k^2}{R_b} \int_{\partial D} \langle x-y,\nu_x \rangle H_0''(k|x-y|)\phi(y)\dx \sigma(y) \right] \\
+& \quad + \O(\epsilon^2),
+\end{align*}
+and hence
+\begin{equation*}
+\left(\K_{D_d}^k\right)^*[\tilde{\phi}](\tilde{x}) = \left(\K_{D}^k\right)^*[\phi](x) - \epsilon \left(\K_1\right) + \O(\epsilon^2)
+\end{equation*}
+\end{proof}
+\begin{prop} \label{prop:asympderiv}
+	Let $\phi \in H^1(\partial D)$ and let $x,y,\tilde{x},\tilde{y},\tilde{\phi}$ be as above. Then 
+\begin{equation*}
+\frac{\partial \S_{D_d,D}^k[\phi]}{\partial \tilde{\nu}} (\tilde{x}) = \left(-\frac{1}{2}I + \left(\K_D^k\right)^*\right)\phi(x) - \epsilon \mathcal{R}_D^k\phi(x) + o(\epsilon),
+\end{equation*}
+\begin{equation*}
+\frac{\partial \S_{D,D_d}^k[\tilde{\phi}]}{\partial \nu} (x) = \left(\frac{1}{2}I + \left(\K_D^k\right)^*\right)\phi(x) - \epsilon \L_D^k\phi(x) + o(\epsilon),
+\end{equation*}
+where $\mathcal{R}_D^k$ and $\L_D^k$ are given by
+\begin{equation*}
+\mathcal{R}_D^k = -k^2\S_D^k + \frac{1}{R_b} \left(-\frac{1}{2}I + \left(\K_D^k\right)^*\right) -\frac{1}{R_b^2}\frac{\partial^2}{\partial T^2}\S_D^k
+\end{equation*}
+\begin{equation*}
+\L_D^k =
+\end{equation*}
+and the $o(\epsilon)$-terms depend on $\|\phi\|_{L^2(\partial D)}$. Here $\frac{\partial^2}{\partial T^2}$ denotes the tangential derivative. 
+\end{prop}
+\begin{proof}
+The proof is similar to the one given in \cite{asymptoticsderivative}. We have that $\S_D^k[\phi]\in H^2(\partial D)$, so using Taylor expansions we have
+\begin{align*}
+\frac{\partial \S_{D_d,D}^k[\phi]}{\partial \tilde{\nu}} (\tilde{x}) &= \nu \cdot \nabla \S_{D_d,D}^k[\phi](\tilde{x}) \\
+&= \frac{\partial \S_D^k[\phi]}{\partial \nu} \bigg|_{-}(x) - \epsilon\left(\frac{\partial^2}{\partial \nu^2}\S_D^k[\phi]\bigg|_{-}(x) \right) + o(\epsilon)
+\end{align*}
+Using the Laplacian in polar coordinates
+\begin{equation*}
+\Delta = \frac{\partial^2}{\partial r^2} + \frac{1}{r}\frac{\partial}{\partial r} + \frac{1}{r^2}\frac{\partial^2}{\partial \theta^2}
+\end{equation*}
+we find 
+\begin{equation*}
+\frac{\partial^2}{\partial \nu^2}\S_D^k[\phi]\bigg|_{-}(x) = -k^2\S_D^k[\phi](x) -\frac{1}{R_b}\frac{\partial \S_D^k[\phi]}{\partial \nu}\bigg|_{-}(x) - \frac{1}{R_b^2}\frac{\partial^2 \S_D^k[\phi]}{\partial T^2}(x),
+\end{equation*}
+so the first formula follows using the jump relations. To derive the second formula, assume first that $k^2$ is not a Dirichlet eigenvalue for $-\Delta$ in $D$. Pick a $f\in H^1(\partial D)$, then there exists a solution $u$ to the exterior Dirichlet problem
+\begin{equation*}
+\begin{cases}
+\Delta u + k^2 u = 0 \quad &\text{in } \R^2\setminus D \\
+u = f & \text{in } \partial D \\
+u \text{ satisfies the So} &\hspace{-10pt}\text{mmerfeld radiation condition}
+\end{cases}
+\end{equation*}
+Then, using duality and  integration by parts in the exterior region, we have that
+\begin{align*}
+\int_{\partial D} \frac{\partial \S_{D,D_d}^k[\tilde{\phi}]}{\partial \nu} (x) f(x) \dx \sigma(x) &= \int_{\partial D} \S_{D,D_d}^k[\tilde{\phi}](x)\frac{\partial f }{\partial \nu} (x)  \dx \sigma(x) \\
+&= \int_{\partial D_d} \S_{D_d,D}^k\left[\frac{\partial f }{\partial \nu}\right](\tilde{x})\tilde{\phi}(\tilde{x}) \dx \sigma(\tilde{x}).
+\end{align*}
+Using Proposition \ref{prop:asympsingle} and equation \eqnref{eq:dsigma} we find
+\begin{align*}
+\int_{\partial D_d} \S_{D_d,D}^k\left[\frac{\partial f }{\partial \nu}\right](\tilde{x})\tilde{\phi}(\tilde{x}) \dx \sigma(\tilde{x}) &= \int_{\partial D}\left( \S_D^k\left[\frac{\partial f }{\partial \nu}\right] (x) -\epsilon \left(-\frac{1}{2}I + \left(\K_D^k\right)^*\right)\left[\frac{\partial f }{\partial \nu}\right](x)\right)\phi(x)\left(1-\frac{\epsilon}{R_b}\right)\dx \sigma(x) + o(\epsilon) \\
+&= \int_{\partial D}\S_D^k\left[\frac{\partial f }{\partial \nu}\right] \phi\dx \sigma -\epsilon \int_{\partial D}\left( \frac{1}{R_b}\S_D^k -\frac{1}{2}I + \left(\K_D^k\right)^*\right)\left[\frac{\partial f }{\partial \nu}\right]\phi\dx \sigma + o(\epsilon) \\
+& = \int_{\partial D} \S_D^k\left[\phi\right]\frac{\partial f }{\partial \nu} \dx \sigma -\epsilon \int_{\partial D}\left( \frac{1}{R_b}\S_D^k -\frac{1}{2}I + \K_D^k\right)\left[\phi\right]\frac{\partial f }{\partial \nu}\dx \sigma + o(\epsilon) \\
+&= \int_{\partial D} \frac{\partial \S_D^k }{\partial \nu}[\phi]\bigg|_{+}f \dx \sigma -\epsilon \int_{\partial D}\left(\frac{1}{R_b}\frac{\partial \S_D^k }{\partial \nu}\bigg|_{+} +\frac{\partial \D_D^k}{\partial \nu} \right)\left[\phi\right]f\dx \sigma + o(\epsilon) \\
+\end{align*}
 
-To find the expansion of $\S_{D_d,D}$, let $x,y\in \partial D$ and let $\tilde{x} = x - \epsilon \nu(x)$. Observe that the normal of $D$ satisfies $\nu(x) = \hat{x}$. Then the Taylor expansion 
-\begin{equation*}
-\Gamma^k(\tilde{x},y) = \Gamma^k(x,y) - \epsilon \frac{\partial \Gamma^k(x,y)}{\partial \nu(x)} + \O(\epsilon^2)
-\end{equation*}
-is valid for $x\neq y$. It follows that \marginpar{\footnotesize Split into integral with $y$ away from $x$ and $y$ close to $x$.}
-\begin{equation*}
-\S_{D_d,D}^k[\phi](\tilde{x}) = \S_D^k[\phi](x) -\epsilon \left(\K_D^k\right)^*[\phi](x) + \O(\epsilon^2)
-\end{equation*}
-In a similar way, we find that 
-\begin{equation*}
-\S_{D,D_d}^k[\tilde{\phi}](x) = \S_D^k[\phi](x) +\epsilon \left(\frac{1}{R_b}\S_D^k[\phi](x) - \K_D^k[\phi](x) \right) + \O(\epsilon^2)
-\end{equation*}
+\end{proof}
+
+
+Using all these asymptotic expansions, we can expand the operator $\A$ as 
+\begin{equation}
+\A = \A_0 - \epsilon \A_1 + o(\epsilon),
+\end{equation}
+where
+\begin{equation} \label{eq:A0}
+\A_0 = 
+\begin{pmatrix}
+\S_{D}^{k_b} &  -\S_{D}^{k} & -\S_{D}^{k} & 0 \\
+0 & \S_{D}^k & \S_{D}^k & -\Scrystal \\
+-\frac{1}{2}I+ (\K_{D}^{k_b})^*& -\delta\left( \frac{1}{2}I+ (\K_{D}^{k})^*\right) & -\delta\left( \frac{1}{2}I+ (\K_{D}^{k})^*\right) & 0 \\
+0 & -\frac{1}{2}I+ (\K_D^{k})^* & -\frac{1}{2}I+ (\K_D^{k})^* & -\left( \frac{c}{2}I+ \left(\K_D^{\#,+}\right)^*\right)
+\end{pmatrix}, 
+\end{equation}
+and
+\begin{equation} \label{eq:A1}
+\A_1 = 
+\begin{pmatrix}
+\frac{1}{R_b}\S_D^{k_b} + \K_D^{k_b} + \left(\K_D^{k_b}\right)^* &  -\frac{1}{R_b}\S_D^{k_b} - \K_D^{k} - \left(\K_D^{k}\right)^* & \frac{1}{2}I - \left(\K_D^k\right)^* & 0 \\
+0 & -\frac{1}{2}I+ \frac{1}{R_b}\S_D^k + \K_D^k  & 0 & 0 \\
+-\frac{1}{2}I+ (\K_{D}^{k_b})^*& -\delta\left( \frac{1}{2}I+ (\K_{D}^{k})^*\right) & -\delta\left( \frac{1}{2}I+ (\K_{D}^{k})^*\right) & 0 \\
+0 & -\frac{1}{2}I+ (\K_D^{k})^* & 0 & 0
+\end{pmatrix}, 
+\end{equation}
 
 \bibliography{defect}{}
 \bibliographystyle{plain}
