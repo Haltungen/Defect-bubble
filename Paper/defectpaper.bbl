@@ -22,6 +22,12 @@ Habib Ammari, Hyeonbae Kang, and Eunjoo Kim.
   dielectric layers.
 \newblock 1, 04 2006.
 
+\bibitem{effectivemedium}
+Habib Ammari and Hai Zhang.
+\newblock Effective medium theory for acoustic waves in bubbly fluids near
+  minnaert resonant frequency.
+\newblock {\em SIAM Journal on Mathematical Analysis}, 49(4):3252--3276, 2017.
+
 \bibitem{asymptoticsderivative}
 Abdessatar Khelifi and Habib Zribi.
 \newblock Asymptotic expansions for the voltage potentials with two-dimensional
