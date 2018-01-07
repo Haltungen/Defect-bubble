@@ -1,4 +1,3 @@
-function out = fourierQBiPerG(r, y, alp, k, NN, N, M) 
 %% fourierQBiPerG
 %
 % Overview:
@@ -9,9 +8,9 @@ function out = fourierQBiPerG(r, y, alp, k, NN, N, M)
 %   y:          y
 %   alp:        \alpha
 %   k:          k
-%   NN:         Limits for the Fourier coefficients, between -NN and NN
-%   N:          Order of the sum when computing the lattice sums
-%   M:          Order of the sum for the Fourier coefficients
+%   NN:         Order of Fourier series
+%   N1:         Order of the sum when computing the lattice sums
+%   N2:         Order of the sum for the Fourier coefficients
 %
 % Output:
 %   out:       The Fourier coefficients.
@@ -22,40 +21,67 @@ function out = fourierQBiPerG(r, y, alp, k, NN, N, M)
 % Authors:
 %   Habib Ammari, Brian Fitzpatrick, Sanghyeon Yu, Erik Orvehed Hiltunen
 
+function [out, out_nu] = fourierQBiPerG(r, y, alp, k, NN, N1, N2) 
+
 %%% store lattice sum data %%%
 L = 1;
-data_Qn_posi = zeros(NN+M+1,1);
-data_Qn_nega = zeros(NN+M,1);
-for j=1:M+NN+1
-    data_Qn_posi(j)=lattice_Sn(j-1,k,alp,L,N);
+data_Qn_posi = zeros(NN+N2+1,1);
+data_Qn_nega = zeros(NN+N2,1);
+for j=1:N2+NN+1
+    data_Qn_posi(j)=lattice_Sn(j-1,k,alp,L,N1);
 end
-for j=1:M+NN   
-    data_Qn_nega(j)=lattice_Sn(j,k,[-alp(1), alp(2)],L,N);
+for j=1:N2+NN   
+    data_Qn_nega(j)=lattice_Sn(j,k,[-alp(1), alp(2)],L,N1);
 end
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4a8bb71a1c2da6972ce7c040561952fb3a7bab52
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 r_2 = sqrt(y(1)*y(1)+y(2)*y(2));
-theta_2 = atan2(y(1),y(2));
+theta_2 = atan2(y(2),y(1));
 out = zeros(1,2*NN+1);
-Qn = 0; 
+out_nu = zeros(1,2*NN+1);
 for n = -NN:NN
     sgn = (-1)^mod(n,2);
+<<<<<<< HEAD
     %fprintf('------------------------ n = %d ------------------------\n\n', n);
     for l = -M:M
+=======
+    term = 0;
+    for l = -N2:N2
+>>>>>>> 4a8bb71a1c2da6972ce7c040561952fb3a7bab52
         if -n-l >= 0
-            Qn = data_Qn_posi(-n-l+1);  
+            Qn = data_Qn_posi(-(n+l)+1);  
         else
             Qn = data_Qn_nega(n+l);
         end
+<<<<<<< HEAD
         %fprintf('Qn: %.5e,\tJ_l:\t%.5e,\tQn*J_l: %.5e\n', Qn, besselj(l,k*r_2), Qn*besselj(l,k*r_2));
         out(NN+1+n) = out(NN+1+n) + sgn*Qn*besselj(l,k*r_2)*exp(1i*l*theta_2)*besselj(n,k*r);
     end
     
     if r_2 > r
+=======
+        term = term + Qn*besselj(l,k*r_2)*exp(1i*l*theta_2);
+    end
+    out(NN+1+n) = term*sgn*besselj(n,k*r);
+    out_nu(NN+1+n) = term*sgn*0.5*k*(besselj(n-1,k*r) - besselj(n+1,k*r));
+    if abs(r-r_2) < 10^-6
+        out(NN+1+n) = out(NN+1+n) + sgn*besselh(n,1,k*r)*besselj(-n,k*r_2)*exp(-1i*n*theta_2);
+        out_nu_plus = 0.5*k*sgn*besselh(-n,k*r_2)*exp(-1i*n*theta_2)*(besselj(n-1,k*r) - besselj(n+1,k*r));
+        out_nu_minus = 0.5*k*sgn*(besselh(n-1,k*r) - besselh(n+1,k*r))*besselj(-n,k*r_2)*exp(-1i*n*theta_2); 
+        out_nu(NN+1+n) = out_nu(NN+1+n) + 0.5*(out_nu_minus+out_nu_plus);     
+    elseif r_2 > r
+>>>>>>> 4a8bb71a1c2da6972ce7c040561952fb3a7bab52
         out(NN+1+n) = out(NN+1+n) + sgn*besselh(-n,1,k*r_2)*exp(-1i*n*theta_2)*besselj(n,k*r);
+        out_nu(NN+1+n) = out_nu(NN+1+n) + 0.5*k*sgn*besselh(-n,k*r_2)*exp(-1i*n*theta_2)*(besselj(n-1,k*r) - besselj(n+1,k*r));
     else
         out(NN+1+n) = out(NN+1+n) + sgn*besselh(n,1,k*r)*besselj(-n,k*r_2)*exp(-1i*n*theta_2);
+        out_nu(NN+1+n) = out_nu(NN+1+n) + 0.5*k*sgn*(besselh(n-1,k*r) - besselh(n+1,k*r))*besselj(-n,k*r_2)*exp(-1i*n*theta_2);
     end
 end
-out = -1i/4*out;
+out = -1i/4.*out.';
+out_nu = -1i/4.*out_nu.';
 end
