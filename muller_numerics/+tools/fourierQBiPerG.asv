@@ -30,8 +30,11 @@ for j=1:M+NN+1
     data_Qn_posi(j)=lattice_Sn(j-1,k,alp,L,N);
 end
 for j=1:M+NN   
-    data_Qn_nega(j)=lattice_Sn(j,k,[-alp(1), alp(2)],L,N);
+    data_Qn_nega(j)=(-1)^j*lattice_Sn(j,k,[alp(1), alp(2)],L,N);
 end
+% data_Qn_posi
+% data_Qn_nega
+% abs(data_Qn_posi(2:end)-data_Qn_nega)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 r_2 = sqrt(y(1)*y(1)+y(2)*y(2));
@@ -40,17 +43,18 @@ out = zeros(1,2*NN+1);
 Qn = 0; 
 for n = -NN:NN
     sgn = (-1)^mod(n,2);
-    %fprintf('------------------------ n = %d ------------------------\n\n', n);
+    fprintf('------------------------ n = %d ------------------------\n\n', n);
     for l = -M:M
         if -n-l >= 0
             Qn = data_Qn_posi(-n-l+1);  
         else
             Qn = data_Qn_nega(n+l);
         end
-        %fprintf('Qn: %.5e,\tJ_l:\t%.5e,\tQn*J_l: %.5e\n', Qn, besselj(l,k*r_2), Qn*besselj(l,k*r_2));
-        out(NN+1+n) = out(NN+1+n) + sgn*Qn*besselj(l,k*r_2)*exp(1i*l*theta_2)*besselj(n,k*r);
+        Qn
+        fprintf('Qn: %.5e,\tJ_l:\t%.5e,\tQn*J_l: %.5e\n', Qn, besselj(l,k*r_2), Qn*besselj(l,k*r_2));
+        out(NN+1+n) = out(NN+1+n) + sgn*Qn*besselj(l,k*r_2)*exp(1i*l*theta_2);
     end
-    
+    out(NN+1+n) = out(NN+1+n)*besselj(n,k*r);
     if r_2 > r
         out(NN+1+n) = out(NN+1+n) + sgn*besselh(-n,1,k*r_2)*exp(-1i*n*theta_2)*besselj(n,k*r);
     else
